@@ -1,0 +1,28 @@
+# IDE
+.idea/
+
+# Python
+venv/
+venvsource/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Output — no subir datos del scraper
+output/
+downloads/
+
+# Archivos temporales y de debug
+login_response.html
+2026-03-11-105430-command-messageinitcommand-message.txt
+
+# Credenciales — nunca subir
+.env
+
+# Claude
+.claude/
+
+# Data folder vacío (heredado)
+data/

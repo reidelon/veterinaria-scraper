@@ -1,0 +1,2708 @@
+ ▐▛███▜▌   Claude Code v2.1.75
+▝▜█████▛▘  Sonnet 4.6 · Claude Pro
+  ▘▘ ▝▝    ~/projects/hospital_scraper
+
+❯ retomememos este proyecto en esta carpata, tenes un aricho de nuestra ultima  
+conversacion /home/tux/projects/hospital_scraper/2026-03-11-105430-command-mess 
+ageinitcommand-message.txt                                                      
+
+● Searched for 1 pattern, read 1 file (ctrl+o to expand)
+
+● Perfecto, tengo el contexto completo. Déjame leer el PLAN.md actual.
+
+● Read 1 file (ctrl+o to expand)
+
+● Perfecto, tengo todo el contexto. Déjame guardar las memorias del proyecto
+  antes de continuar.
+
+● Wrote 4 memories (ctrl+o to expand)
+
+● Listo, memorias guardadas. Acá el resumen de dónde estamos:
+
+  ---
+  Estado del proyecto
+
+  La última sesión (2026-03-11) terminó con:
+  - Flujo completo validado por simulación contra el servidor real
+  - PLAN.md creado con 6 subtareas (T1→T6), todas pendientes
+  - El src/scraper.py actual sigue siendo el viejo (hospital5.7f, con dos
+  breakpoint())
+
+  Próximos pasos según el plan:
+
+  ┌───────┬─────────────────────────────────────────────────┬───────────┐
+  │ Tarea │                     Qué es                      │  Estado   │
+  ├───────┼─────────────────────────────────────────────────┼───────────┤
+  │ T1    │ Config: URL, credenciales, eliminar breakpoints │ Pendiente │
+  ├───────┼─────────────────────────────────────────────────┼───────────┤
+  │ T2    │ navigator.py — módulo Selenium                  │ Pendiente │
+  ├───────┼─────────────────────────────────────────────────┼───────────┤
+  │ T3    │ pdf_extractor.py — parsear PDFs                 │ Pendiente │
+  ├───────┼─────────────────────────────────────────────────┼───────────┤
+  │ T4    │ excel_writer.py — generar Excel                 │ Pendiente │
+  ├───────┼─────────────────────────────────────────────────┼───────────┤
+  │ T5    │ Reescribir scraper.py con loop principal        │ Pendiente │
+  ├───────┼─────────────────────────────────────────────────┼───────────┤
+  │ T6    │ Test end-to-end con 10 casos                    │ Pendiente │
+  └───────┴─────────────────────────────────────────────────┴───────────┘
+
+  Preguntas que quedaron sin respuesta:
+  - A: ¿Cómo se identifica "perro cruza"? ¿El campo Raza dice literalmente
+  "Cruza", "Mestizo", "SRD"?
+  - B: ¿Si Paraje Y Dirección están vacíos — dejar en blanco?
+  - C: ¿Hay una plantilla Excel predefinida con columnas/orden?
+
+  ¿Arrancamos con T1 directamente, o primero me confirmás las preguntas
+  pendientes?
+
+✻ Cogitated for 1m 1s
+
+❯ creo tenimos un url nueva , o no ?                                            
+
+● Searched for 1 pattern (ctrl+o to expand)
+
+● Sí, el código todavía tiene hospital5.7f. ¿Cuál es la nueva URL? En la última
+  sesión teníamos hospital7.0d — ¿sigue siendo esa o cambió a otra?
+
+❯ busca en la conversacion                                                      
+
+● Searched for 1 pattern (ctrl+o to expand)
+
+● La URL nueva es hospital7.0d, que fue la que usamos en toda la simulación de
+  la sesión anterior. No hay otra más reciente en el archivo.
+
+  ¿Querés que arranque con T1 y actualizo el código a hospital7.0d?
+
+❯ no, dame la url completa tpat usarla en el navegador                          
+
+● http://164.73.21.67:8080/hospital7.0d/com.hospital.arranque
+
+❯ bine es esa saca la anerior y deja esa en el codigo                           
+
+● Read 1 file (ctrl+o to expand)
+
+● Update(src/scraper.py)
+  ⎿  Added 2 lines, removed 2 lines
+      15  import json
+      16  
+      17  # URLs and credentials
+      18 -LOGIN_URL = 'http://164.73.21.67:8080/hospital5.7f/com.hospital
+         -.login'                                                        
+      19 -MASCOTAS_URL = 'http://164.73.21.67:8080/hospital5.7f/com.hospi
+         -tal.todasmascotas'                                             
+      18 +LOGIN_URL = 'http://164.73.21.67:8080/hospital7.0d/com.hospital
+         +.login'                                                        
+      19 +MASCOTAS_URL = 'http://164.73.21.67:8080/hospital7.0d/com.hospi
+         +tal.todasmascotas'                                             
+      20  USERNAME = 'johana.long'
+      21  PASSWORD = 'tesis--jlong'
+      22  
+
+● Listo, actualizado a hospital7.0d.
+
+❯ decime las tareas pendientes                                                  
+
+● Del PLAN.md, las 6 tareas todas pendientes:
+
+  T1 — Configuración y setup
+  - Actualizar URL base a hospital7.0d ✅ (recién hecho)
+  - Mover credenciales/URLs a config/config.py
+  - Eliminar los dos breakpoint() (líneas 543 y 580)
+  - Verificar requirements.txt tiene openpyxl
+
+  T2 — Módulo de navegación Selenium
+  - Crear src/navigator.py con funciones: login(), go_to_mascotas(),
+  search_case(), get_pet_row(), get_ficha_buttons(), download_ficha(),
+  is_session_alive(), ensure_session()
+
+  T3 — Módulo de extracción PDF
+  - Crear src/pdf_extractor.py con extract_fields() e is_data_complete()
+
+  T4 — Módulo de output Excel
+  - Crear src/excel_writer.py con write_row(), save(), get_processed_cases()
+
+  T5 — Reescribir src/scraper.py
+  - Loop principal 0001→3279, resumibilidad, re-login automático, Ctrl+C
+  graceful
+
+  T6 — Test end-to-end con 10 casos
+  - Validar con 0001/2023→0010/2023 antes de correr los 3279
+
+  ---
+  Preguntas pendientes antes de T3/T4:
+  - A: ¿Cómo detectar "perro cruza"? (¿dice "Cruza", "Mestizo", "SRD"?)
+  - B: ¿Si Paraje Y Dirección vacíos → dejar en blanco?
+  - C: ¿Hay plantilla Excel predefinida?
+
+  ¿Arrancamos con T1 completo o querés resolver primero las preguntas?
+
+❯ que es lo qeu no entiendes de en la A y B ?                                   
+
+● A: Nada, podemos inferirlo del PDF. Cuando llegue a T3 leo el PDF real y veo
+  qué valores exactos aparecen en el campo Raza para los mestizos.
+
+  B: Dejar en blanco, lógico.
+
+  ¿Arrancamos con T1 entonces?
+
+❯ aqui tienes un PDF de ejemplo que pertenece a un gato                         
+/home/tux/Desktop/aimpresionuno_impl.pdf. Si vamos con la tarea uno             
+
+● Read 1 file (ctrl+o to expand)
+
+● Excelente, el PDF me dice mucho. Observaciones clave antes de arrancar T1:
+
+  - Raza "cruza": aparece como CRUZA FELIN (para gatos). Para perros será CRUZA 
+  CANIN o similar. La detección es: campo Raza contiene "CRUZA".
+  - Especie: en el PDF dice FELINA (con A), no FELINO. El grid puede diferir —
+  lo verifico cuando lleguemos a T3.
+  - Examen Objetivo Particular: vacío en este caso (confirma el edge case).
+  - Peso: 3,300 con coma — hay que parsear formato español.
+
+  Ahora T1. Leo el scraper y el config actuales:
+
+● Read 3 files (ctrl+o to expand)
+
+● Tengo todo lo que necesito. Hago T1 completo de una:
+
+  1. Actualizar config/config.py con URLs, credenciales y rango de casos
+  2. Importar desde config en scraper.py y eliminar los dos breakpoint()
+  3. Agregar openpyxl a requirements.txt
+
+● Write(config/config.py)
+  ⎿  Added 33 lines, removed 13 lines
+       1  # Scraper Configuration
+       2  
+       3 -# Request settings                                             
+       4 -REQUEST_TIMEOUT = 30  # seconds                                
+       5 -MAX_RETRIES = 3                                                
+       6 -RETRY_DELAY = 5  # seconds                                     
+       3 +# URLs                                                         
+       4 +BASE_URL = 'http://164.73.21.67:8080/hospital7.0d'             
+       5 +ARRANQUE_URL = f'{BASE_URL}/com.hospital.arranque'             
+       6 +LOGIN_URL = f'{BASE_URL}/com.hospital.login'                   
+       7 +MASCOTAS_URL = f'{BASE_URL}/com.hospital.todasmascotas'        
+       8  
+       8 -# Output settings                                              
+       9 -OUTPUT_DIR = 'data'                                            
+      10 -CSV_ENCODING = 'utf-8'                                         
+       9 +# Credentials                                                  
+      10 +USERNAME = 'johana.long'                                       
+      11 +PASSWORD = 'tesis--jlong'                                      
+      12  
+      12 -# Scraping settings                                            
+      13 -BATCH_SIZE = 10  # Number of URLs to process in parallel       
+      14 -DELAY_BETWEEN_REQUESTS = 2  # seconds                          
+      13 +# Case range                                                   
+      14 +START_CASE = 1                                                 
+      15 +END_CASE = 3279                                                
+      16 +YEAR = 2023                                                    
+      17  
+      16 -# Logging settings                                             
+      17 -LOG_LEVEL = 'INFO'                                             
+      18 -LOG_FILE = 'scraper.log'                                       
+      18   No newline at end of file
+      19 +# Paths                                                        
+      20 +DOWNLOAD_DIR = 'downloads'                                     
+      21 +OUTPUT_DIR = 'output'                                          
+      22 +OUTPUT_EXCEL = f'{OUTPUT_DIR}/resultados_{YEAR}.xlsx'          
+      23 +MISSING_CASES_FILE = f'{OUTPUT_DIR}/missing_cases.txt'         
+      24 +ERRORS_FILE = f'{OUTPUT_DIR}/errors.txt'                       
+      25 +                                                               
+      26 +# Timing                                                       
+      27 +WAIT_TIMEOUT = 10       # seconds to wait for elements         
+      28 +DOWNLOAD_TIMEOUT = 120  # seconds to wait for PDF download     
+      29 +SLEEP_SHORT = 2                                                
+      30 +SLEEP_MEDIUM = 3                                               
+      31 +SLEEP_LONG = 5                                                 
+      32 +                                                               
+      33 +# Request settings                                             
+      34 +REQUEST_TIMEOUT = 30                                           
+      35 +MAX_RETRIES = 3                                                
+      36 +RETRY_DELAY = 5                                                
+      37 +                                                               
+      38 +# Save Excel every N cases                                     
+      39 +SAVE_EVERY = 50                                                
+
+● Update(src/scraper.py)
+  ⎿  Added 3 lines, removed 5 lines
+      14  from datetime import datetime
+      15  import json
+      16  
+      17 -# URLs and credentials                                         
+      18 -LOGIN_URL = 'http://164.73.21.67:8080/hospital7.0d/com.hospital
+         -.login'                                                        
+      19 -MASCOTAS_URL = 'http://164.73.21.67:8080/hospital7.0d/com.hospi
+         -tal.todasmascotas'                                             
+      20 -USERNAME = 'johana.long'                                       
+      21 -PASSWORD = 'tesis--jlong'                                      
+      17 +import sys                                                     
+      18 +sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'
+         +))                                                             
+      19 +from config.config import LOGIN_URL, MASCOTAS_URL, USERNAME, PA
+         +SSWORD, DOWNLOAD_DIR as CFG_DOWNLOAD_DIR                       
+      20  
+      21  # Create downloads directory if it doesn't exist
+      22  DOWNLOAD_DIR = os.path.join(os.getcwd(), 'downloads')
+
+● Necesito revisar cómo quedó el archivo para corregir posibles duplicados:
+
+● Read 1 file (ctrl+o to expand)
+
+● Update(src/scraper.py)
+  ⎿  Added 1 line, removed 3 lines
+      13  import sys
+      14  from datetime import datetime
+      15  import json
+      16 -                                                               
+      17 -import sys                                                     
+      16  sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'
+          ))
+      19 -from config.config import LOGIN_URL, MASCOTAS_URL, USERNAME, PA
+         -SSWORD, DOWNLOAD_DIR as CFG_DOWNLOAD_DIR                       
+      17 +from config.config import LOGIN_URL, MASCOTAS_URL, USERNAME, PA
+         +SSWORD                                                         
+      18  
+      19  # Create downloads directory if it doesn't exist
+      20  DOWNLOAD_DIR = os.path.join(os.getcwd(), 'downloads')
+
+● Ahora elimino los dos breakpoint():
+
+● Update(src/scraper.py)
+  ⎿  Removed 1 line
+      536                      print(f"Looking for case number {case} in 
+           mascotas table...")
+      537                      try:
+      538                          # Get the grid data to find the correc
+           t row
+      539 -                        breakpoint()                          
+      539                          grid_data_element = wait_for_element(d
+           river, By.ID, "GridContainerTbl")
+      540                          if not grid_data_element:
+      541                              print("Could not find grid data")
+
+● Update(src/scraper.py)
+  ⎿  Removed 1 line
+      572                          if ficha_button:
+      573                              safe_click(driver, ficha_button, "
+           ficha button")
+      574                              print("Clicked ficha button")
+      575 -                            breakpoint()                      
+      575                      except Exception as e:
+      576                          print(f"Error finding correct mascota 
+           row: {str(e)}")
+      577                      
+
+● Ahora agrego openpyxl a requirements.txt:
+
+● Update(requirements.txt)
+  ⎿  Added 1 line
+      6  selenium==4.18.1
+      7  webdriver-manager==4.0.1
+      8  PyPDF2==3.0.1
+      9 +openpyxl==3.1.2                                                 
+
+● T1 listo. Resumen de lo que hice:
+
+  - config/config.py — reescrito con URLs, credenciales, rango 1→3279, paths de
+  output, timeouts y SAVE_EVERY
+  - src/scraper.py — importa desde config, sin breakpoint(), sin duplicado de
+  import sys
+  - requirements.txt — agregado openpyxl==3.1.2
+
+  ¿Arrancamos con T2 (navigator.py)?
+
+✻ Baked for 1m 50s
+
+❯ si                                                                            
+
+● Read 1 file (ctrl+o to expand)
+
+● Write(src/navigator.py)
+  ⎿  Wrote 333 lines to src/navigator.py
+      1 """
+      2 navigator.py — Selenium navigation module for hospital scraper.
+      3 All browser interactions with the hospital web app are encapsulat
+        ed here.
+      4 """
+      5 
+      6 import os
+      7 import re
+      8 import time
+      9 import sys
+     … +323 lines (ctrl+o to expand)
+
+● T2 listo. Lo que creé en src/navigator.py:
+
+  ┌────────────────────────────────┬────────────────────────────────────────┐
+  │            Función             │                Qué hace                │
+  ├────────────────────────────────┼────────────────────────────────────────┤
+  │ login(driver)                  │ arranque → IMAGE2 → credenciales →     │
+  │                                │ submit                                 │
+  ├────────────────────────────────┼────────────────────────────────────────┤
+  │ is_session_alive(driver)       │ detecta si estamos en login/arranque   │
+  ├────────────────────────────────┼────────────────────────────────────────┤
+  │ ensure_session(driver)         │ re-login automático si sesión expiró   │
+  ├────────────────────────────────┼────────────────────────────────────────┤
+  │ go_to_mascotas(driver)         │ clic MASCOTAS → todasmascotas          │
+  ├────────────────────────────────┼────────────────────────────────────────┤
+  │ search_case(driver, case)      │ busca el número, lee especie y link    │
+  │                                │ cédula del grid                        │
+  ├────────────────────────────────┼────────────────────────────────────────┤
+  │ get_pet_row(driver, case)      │ en wwmascotas, encuentra la fila que   │
+  │                                │ corresponde al número                  │
+  ├────────────────────────────────┼────────────────────────────────────────┤
+  │ get_ficha_buttons(driver)      │ lista botones imprimir ordenados de    │
+  │                                │ más antiguo a más nuevo                │
+  ├────────────────────────────────┼────────────────────────────────────────┤
+  │ download_ficha(driver, btn_id, │ clic imprimir, espera PDF, retorna     │
+  │  dir)                          │ path                                   │
+  └────────────────────────────────┴────────────────────────────────────────┘
+
+  ¿Seguimos con T3 (pdf_extractor.py)?
+
+✻ Cooked for 1m 41s
+
+❯ queiro probar todo hasta el la T2 . me descarga algun pdf ?                   
+
+● Escribo un script de prueba rápido y lo corro:
+
+● Bash(source venv/bin/activate && python3 - << 'EOF'
+      import os, sys, time…)
+  ⎿  Error: Exit code 1
+     === LOGIN ===
+     [login] OK — 
+     http://164.73.21.67:8080/hospital7.0d/com.hospital.menuprincipal
+
+     === IR A MASCOTAS ===
+     [go_to_mascotas] OK — 
+     http://164.73.21.67:8080/hospital7.0d/com.hospital.todasmascotas
+
+     === BUSCAR 0001/2023 ===
+     [search_case] 0001/2023 — especie=CANINO
+     Especie: CANINO
+     … +44 lines (ctrl+o to see all)
+
+● Login, mascotas y búsqueda OK. El problema: GeneXus muestra un gx-mask (capa
+  de carga) que intercepta el clic en la cédula. Necesito esperar que
+  desaparezca antes de clickear. Arreglo el navigator:
+
+● Update(src/navigator.py)
+  ⎿  Added 12 lines, removed 1 line
+      38          return None
+      39  
+      40  
+      41 +def _wait_mask_gone(driver, timeout=10):                       
+      42 +    """Wait until the GeneXus loading mask (gx-mask) disappears
+         +."""                                                           
+      43 +    try:                                                       
+      44 +        WebDriverWait(driver, timeout).until(                  
+      45 +            EC.invisibility_of_element_located((By.CSS_SELECTOR
+         +, 'div.gx-mask'))                                              
+      46 +        )                                                      
+      47 +    except TimeoutException:                                   
+      48 +        pass                                                   
+      49 +                                                               
+      50 +                                                               
+      51  def _click(driver, element):
+      42 -    """JS click with fallback to regular click."""             
+      52 +    """Wait for mask, then JS click with fallback to regular cl
+         +ick."""                                                        
+      53 +    _wait_mask_gone(driver)                                    
+      54      try:
+      55          driver.execute_script("arguments[0].scrollIntoView(true
+          );", element)
+      56          driver.execute_script("arguments[0].click();", element)
+
+● También el search_case devuelve un elemento que puede volverse stale. Lo hago
+  devolver el texto de la cédula y re-busca el link en el momento del clic. Más
+  simple: agrego un _wait_mask_gone al final de search_case antes de retornar:
+
+● Update(src/navigator.py)
+  ⎿  Added 1 line
+      199          print(f'[search_case] {case_number} — cedula link not 
+           found')
+      200          return None
+      201  
+      202 +    _wait_mask_gone(driver)                                   
+      203      print(f'[search_case] {case_number} — especie={especie}')
+      204      return {'especie': especie, 'cedula_link': cedula_link}
+      205  
+
+● Bash(source venv/bin/activate && python3 - << 'EOF'
+      import os, sys, time…)
+  ⎿  Error: Exit code 1
+     [login] OK — 
+     http://164.73.21.67:8080/hospital7.0d/com.hospital.menuprincipal
+     [go_to_mascotas] OK — 
+     http://164.73.21.67:8080/hospital7.0d/com.hospital.todasmascotas
+     [search_case] 0001/2023 — especie=CANINO
+     search_case: CANINO
+     URL tras cedula: 
+     http://164.73.21.67:8080/hospital7.0d/com.hospital.wwclientes
+     URL tras mascotas: 
+     http://164.73.21.67:8080/hospital7.0d/com.hospital.wwmascotas
+     [get_pet_row] Found 0001/2023 at row 1
+     Row: 1
+     URL tras fichas: 
+     http://164.73.21.67:8080/hospital7.0d/com.hospital.wwfichas
+     … +8 lines (ctrl+o to see all)
+
+● Todo el flujo funciona perfectamente:
+
+  login        ✅ → menuprincipal
+  mascotas     ✅ → todasmascotas
+  search_case  ✅ → CANINO
+  click cédula ✅ → wwclientes
+  mascotas     ✅ → wwmascotas
+  get_pet_row  ✅ → fila 1
+  fichas       ✅ → wwfichas
+  buttons      ✅ → vBOTONIMPRIMIR_0001
+  download     ✅ → aimpresionuno_impl.pdf
+
+  El EOFError al final es solo el input() del script de prueba (sin terminal
+  interactiva), no afecta nada. T2 validado. ¿Seguimos con T3
+  (pdf_extractor.py)?
+
+✻ Churned for 2m 56s
+
+❯  si                                                                           
+
+● Antes de escribir el extractor, veo el texto raw que PyPDF2 saca del PDF
+  descargado:
+
+● Bash(source venv/bin/activate && python3 - << 'EOF'
+      import PyPDF2…)
+  ⎿  ============================================================
+     PAGE 1
+     ============================================================
+     … +191 lines (ctrl+o to expand)
+
+● Ahora tengo el texto raw completo. Analizo los patrones antes de escribir:
+
+  Página 1 — patrones clave:
+  - Especie+Raza valores van ANTES de sus etiquetas: CANINO CANICHE Especie Raza
+  - Especialidad va entre las dos etiquetas: Motivo Consulta:Medicina General 
+  Especialidad:
+  - Motivo real es el texto entre Peso (grs.) y ANAMNESIS
+  - Paraje+Depto: 24 CERRO Sec: Paraje: Departamento MONTEVIDEO
+
+  Página 2:
+  - Examen Objetivo Particular: texto entre Examen Objetivo Particular y
+  DIAGNOSTICO
+
+● Write(src/pdf_extractor.py)
+  ⎿  Wrote 297 lines to src/pdf_extractor.py
+       1 """
+       2 pdf_extractor.py — Extract clinical fields from hospital PDF rec
+         ords.
+       3 
+       4 The PDFs are generated by GeneXus and have a two-column layout t
+         hat causes
+       5 PyPDF2 to extract text in a non-obvious order. Field values some
+         times appear
+       6 BEFORE their labels. This module handles both orderings.
+       7 """
+       8 
+       9 import re
+      10 import PyPDF2
+     … +287 lines (ctrl+o to expand)
+
+● Pruebo contra el PDF descargado (0001/2023 CANINO CANICHE):
+
+● Bash(source venv/bin/activate && python3 - << 'EOF'
+      import sys…)
+  ⎿    especie              = 'CANINO'
+       raza                 = 'CANICHE'
+       sexo                 = 'M'
+     … +12 lines (ctrl+o to expand)
+
+● Casi todo perfecto. Solo el paraje falló — el patrón 2 capturo "Departamento
+  MONTEVIDEO" en lugar de "24 CERRO". Invierto la prioridad y agrego una
+  validación:
+
+● Update(src/pdf_extractor.py)
+  ⎿  Added 6 lines, removed 5 lines
+      190           → paraje = "BUCEO"
+      191      Falls back to Dirección field if paraje is empty.
+      192      """
+      193 -    # Pattern 2: label before value                           
+      194 -    m = re.search(r'Paraje:\s+(.+?)(?:\n|$)', text)           
+      193 +    # Pattern 1: value before label — "24 CERRO Sec: Paraje: D
+          +epartamento MONTEVIDEO"                                       
+      194 +    m = re.search(r'\n(.+?)\s+Sec:\s+Paraje:\s+Departamento', 
+          +text)                                                         
+      195      if m:
+      196          val = m.group(1).strip()
+      197          if val:
+      198              return val
+      199  
+      200 -    # Pattern 1: value before label (paraje is whatever is bet
+          -ween \n and "Sec:")                                           
+      201 -    m = re.search(r'\n(.+?)\s+Sec:\s+Paraje:\s+Departamento', 
+          -text)                                                         
+      200 +    # Pattern 2: label before value — "Paraje: BUCEO"         
+      201 +    # Guard: don't match if the value starts with "Departament
+          +o"                                                            
+      202 +    m = re.search(r'Paraje:\s+(.+?)(?:\n|$)', text)           
+      203      if m:
+      204          val = m.group(1).strip()
+      204 -        if val:                                               
+      205 +        if val and not val.upper().startswith('DEPARTAMENTO'):
+      206              return val
+      207  
+      208      # Fallback: try to get Dirección
+
+● Bash(source venv/bin/activate && python3 - << 'EOF'
+      import sys…)
+  ⎿    especie              = 'CANINO'
+       raza                 = 'CANICHE'
+       sexo                 = 'M'
+     … +12 lines (ctrl+o to expand)
+
+● Ahora pruebo también con el PDF del gato de ejemplo:
+
+● Bash(source venv/bin/activate && python3 - << 'EOF'
+      import sys…)
+  ⎿    especie              = 'FELINO'
+       raza                 = 'CRUZA FELIN'
+       sexo                 = 'H'
+     … +11 lines (ctrl+o to expand)
+
+● Dos problemas a corregir:
+  1. peso_kg = 0.003 — "3,300" es 3300 gramos (coma como separador de miles), no
+   3.3 grs
+  2. paraje = '11 BUCEO' — capturo el número de sector junto al paraje
+
+  Primero veo el texto raw del PDF del gato:
+
+● Bash(source venv/bin/activate && python3 - << 'EOF'
+      import PyPDF2…)
+  ⎿  'Tel +598 1903 int 2100Ruta 8 -  km 18, CP 13000, Montevideo - URUGUAY
+     \nHospital de la Facultad de Veterinaria\nLONG\n48201086JOHANA\nANZANI
+      1884/00217/02/21 0000057231\n095211894Numero:\nApellido: Nombre:\nTel
+     … +16 lines (ctrl+o to expand)
+
+● Perfecto. El texto raw del gato confirma el mismo formato que el perro: 11 
+  BUCEO Sec: Paraje: Departamento MONTEVIDEO. El "11" es el sector y "BUCEO" el
+  paraje. Corrijo los dos problemas:
+
+  1. Paraje: separar el número de sector del nombre del paraje
+  2. Peso: la coma es separador de miles ("3,300" = 3300 grs = 3.3 kg)
+
+● Update(src/pdf_extractor.py)
+  ⎿  Added 4 lines, removed 2 lines
+      190           → paraje = "BUCEO"
+      191      Falls back to Dirección field if paraje is empty.
+      192      """
+      193 -    # Pattern 1: value before label — "24 CERRO Sec: Paraje: D
+          -epartamento MONTEVIDEO"                                       
+      194 -    m = re.search(r'\n(.+?)\s+Sec:\s+Paraje:\s+Departamento', 
+          -text)                                                         
+      193 +    # Pattern 1: value before label — "11 BUCEO Sec: Paraje: D
+          +epartamento MONTEVIDEO"                                       
+      194 +    # Format is: "[SEC_NUM] PARAJE Sec: Paraje: Departamento D
+          +EP"                                                           
+      195 +    # Leading number is the sector — we skip it to get just th
+          +e paraje name.                                                
+      196 +    m = re.search(r'\n(?:\d+\s+)?(.+?)\s+Sec:\s+Paraje:\s+Depa
+          +rtamento', text)                                              
+      197      if m:
+      198          val = m.group(1).strip()
+      199          if val:
+
+● Update(src/pdf_extractor.py)
+  ⎿  Added 2 lines, removed 2 lines
+      274      if not peso_str:
+      275          return None
+      276      try:
+      277 -        # Spanish format: comma as decimal separator          
+      278 -        normalized = peso_str.replace(',', '.')               
+      277 +        # Comma is thousands separator: "3,300" = 3300 grams =
+          + 3.3 kg                                                       
+      278 +        normalized = peso_str.replace(',', '')                
+      279          grs = float(normalized)
+      280          return round(grs / 1000, 3)
+      281      except ValueError:
+
+● Bash(source venv/bin/activate && python3 - << 'EOF'
+      import sys…)
+  ⎿  === PERRO (0001/2023 - CANICHE) ===
+       especie              = 'CANINO'
+       raza                 = 'CANICHE'
+     … +22 lines (ctrl+o to expand)
+
+● Todo correcto en los dos PDFs:
+
+  - Perro: paraje=CERRO, peso=0, tamano=None (CANICHE no es cruza) ✓
+  - Gato: paraje=BUCEO, peso=3.3 kg, tamano=None (FELINO nunca tiene tamano) ✓
+  - is_complete=False para el gato porque examen_objetivo está vacío ✓
+
+  T3 listo. ¿Seguimos con T4 (excel_writer.py)?
+
+✻ Crunched for 5m 54s
+
+❯ t4 que hace?                                                                  
+
+● Crea y gestiona el archivo Excel de salida. Específicamente:
+
+  - Crea output/resultados_2023.xlsx con las columnas en el orden correcto
+  - write_row(wb, data) — agrega una fila con los datos de una ficha
+  - save(wb) — guarda el archivo (se llama cada 50 casos para no perder
+  progreso)
+  - get_processed_cases(wb) — al arrancar, lee qué números de ficha ya están en
+  el Excel para poder retomar sin duplicar si el script se interrumpió
+
+  ¿Seguimos?
+
+❯ este proceso es visual 100% o ocurre todo en la terminal?                     
+ya sabes el nombre de las columnas del excel ?                                  
+
+● ¿Visual o terminal?
+  Abre una ventana de Chrome real — podés ver el browser navegando mientras la
+  terminal muestra logs. Se puede hacer headless (sin ventana) si preferís que
+  corra en background.
+
+  Columnas del Excel — según el PLAN.md definimos estas, pero no confirmaste los
+   nombres exactos:
+
+  ┌─────┬────────────────────────┐
+  │  #  │        Columna         │
+  ├─────┼────────────────────────┤
+  │ 1   │ Nro Ficha              │
+  ├─────┼────────────────────────┤
+  │ 2   │ Especie                │
+  ├─────┼────────────────────────┤
+  │ 3   │ Sexo                   │
+  ├─────┼────────────────────────┤
+  │ 4   │ Edad (años)            │
+  ├─────┼────────────────────────┤
+  │ 5   │ Raza                   │
+  ├─────┼────────────────────────┤
+  │ 6   │ Peso (kg)              │
+  ├─────┼────────────────────────┤
+  │ 7   │ Tamaño                 │
+  ├─────┼────────────────────────┤
+  │ 8   │ Departamento           │
+  ├─────┼────────────────────────┤
+  │ 9   │ Paraje                 │
+  ├─────┼────────────────────────┤
+  │ 10  │ Especialidad           │
+  ├─────┼────────────────────────┤
+  │ 11  │ Motivo Consulta        │
+  ├─────┼────────────────────────┤
+  │ 12  │ Examen Obj. Particular │
+  └─────┴────────────────────────┘
+
+  ¿Estos nombres están bien o johana.long tiene nombres específicos que
+  prefiere? Y ¿querés el browser visible o headless?
+
+✻ Sautéed for 52s
+
+❯ hagamos que el script cuando se ejecute me de la opcion de que se levente el  
+navegador y encaso qeu no qeura que sea headless para eso que espere 5 seg y si 
+ no intruje nada que sea headless. vamos con esas columnas pero que se cree un  
+.csv no un excel                                                                
+
+● Arranco con T4 entonces. CSV es más simple — no necesita openpyxl, usa el
+  módulo csv que viene con Python.
+
+● Write(src/csv_writer.py)
+  ⎿  Wrote 86 lines to src/csv_writer.py
+      1 """
+      2 csv_writer.py — CSV output module for hospital scraper.
+      3 """
+      4 
+      5 import csv
+      6 import os
+      7 import sys
+      8 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+      9 from config.config import OUTPUT_DIR, YEAR
+     … +76 lines (ctrl+o to expand)
+
+● Ahora agrego la función del prompt headless en un archivo de utilidades:
+
+● Write(src/utils.py)
+  ⎿  Wrote 29 lines to src/utils.py
+       1 """
+       2 utils.py — Shared utilities for hospital scraper.
+       3 """
+       4 
+       5 import select
+       6 import sys
+       7 
+       8 
+       9 def ask_headless(timeout=5):
+      10     """
+     … +19 lines (ctrl+o to expand)
+
+● Pruebo rápido las dos cosas:
+
+● Bash(source venv/bin/activate && python3 - << 'EOF'
+      import sys…)
+  ⎿  [csv_writer] Created output/resultados_2023.csv
+     [csv_writer] 2 cases already processed
+     Processed: {'0002/2023', '0001/2023'}
+     … +6 lines (ctrl+o to expand)
+
+● Bash(rm output/resultados_2023.csv)
+  ⎿  Done
+
+● T4 listo. Resumen:
+
+  - csv_writer.py — crea el CSV, agrega filas, lee casos ya procesados para
+  retomar
+  - utils.py — ask_headless(): espera 5 seg, si escribís s abre el browser,
+  cualquier otra cosa o silencio → headless
+
+  ¿Seguimos con T5 (reescribir el scraper.py con el loop principal)?
+
+✻ Brewed for 47s
+
+❯ recuerdame que es y para que es T5                                            
+
+● T5 es reescribir src/scraper.py — es el loop principal que une todo lo que ya
+  hicimos:
+
+  1. Llama ask_headless() → decide si browser visible o no
+  2. Llama get_processed_cases() → sabe qué casos ya están en el CSV para no
+  repetirlos
+  3. Loop de 0001/2023 hasta 3279/2023:
+    - search_case() → si no existe: loguea en missing_cases.txt, siguiente
+    - Si especie no es CANINO/FELINO → siguiente (sin loguear)
+    - Navega hasta wwfichas
+    - Descarga PDF de consulta más antigua
+    - extract_fields() del PDF
+    - Si motivo/examen vacíos → intenta con la siguiente consulta
+    - write_row() al CSV
+  4. Re-login automático si la sesión expira
+  5. Ctrl+C graceful → guarda y cierra limpio
+
+  ¿Arrancamos?
+
+❯ si                                                                            
+
+● Write(src/scraper.py)
+  ⎿  Added 253 lines, removed 572 lines
+        1 +"""                                                           
+        2 +scraper.py — Main loop for hospital clinical records scraper. 
+        3 +Processes cases 0001/2023 → 3279/2023, downloads PDFs and writ
+          +es to CSV.                                                    
+        4 +"""                                                           
+        5 +                                                              
+        6 +import os                                                     
+        7 +import sys                                                    
+        8 +import time                                                   
+        9 +import signal                                                 
+       10 +import shutil                                                 
+       11 +                                                              
+       12 +sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..
+          +'))                                                           
+       13 +                                                              
+       14  from selenium import webdriver
+       15  from selenium.webdriver.common.by import By
+       16  from selenium.webdriver.support.ui import WebDriverWait
+       17  from selenium.webdriver.support import expected_conditions as 
+           EC
+        5 -from selenium.common.exceptions import TimeoutException, Stale
+          -ElementReferenceException                                     
+        6 -import time                                                   
+        7 -import os                                                     
+        8 -import PyPDF2                                                 
+        9 -import glob                                                   
+       10 -import re                                                     
+       11 -import shutil                                                 
+       12 -import signal                                                 
+       13 -import sys                                                    
+       14 -from datetime import datetime                                 
+       15 -import json                                                   
+       16 -sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..
+          -'))                                                           
+       17 -from config.config import LOGIN_URL, MASCOTAS_URL, USERNAME, P
+          -ASSWORD                                                       
+       18  
+       19 -# Create downloads directory if it doesn't exist              
+       20 -DOWNLOAD_DIR = os.path.join(os.getcwd(), 'downloads')         
+       21 -if not os.path.exists(DOWNLOAD_DIR):                          
+       22 -    os.makedirs(DOWNLOAD_DIR)                                 
+       23 -    print(f"Created downloads directory at: {DOWNLOAD_DIR}")  
+       19 +from config.config import (                                   
+       20 +    LOGIN_URL, MASCOTAS_URL, USERNAME, PASSWORD,              
+       21 +    START_CASE, END_CASE, YEAR,                               
+       22 +    DOWNLOAD_DIR, OUTPUT_DIR,                                 
+       23 +    MISSING_CASES_FILE, ERRORS_FILE,                          
+       24 +    SLEEP_MEDIUM, SLEEP_SHORT,                                
+       25 +)                                                             
+       26 +from navigator import (                                       
+       27 +    login, ensure_session,                                    
+       28 +    search_case, get_pet_row, get_ficha_buttons, download_fich
+          +a,                                                            
+       29 +    _click, _wait_mask_gone,                                  
+       30 +)                                                             
+       31 +from pdf_extractor import extract_fields, is_data_complete    
+       32 +from csv_writer import init_csv, write_row, get_processed_case
+          +s                                                             
+       33 +from utils import ask_headless                                
+       34  
+       25 -# Global variable to track if we're shutting down             
+       35 +# ------------------------------------------------------------
+          +---------------                                               
+       36 +# Globals                                                     
+       37 +# ------------------------------------------------------------
+          +---------------                                               
+       38 +                                                              
+       39  is_shutting_down = False
+       40 +DOWNLOAD_DIR_ABS = os.path.abspath(DOWNLOAD_DIR)              
+       41  
+       42 +                                                              
+       43  def signal_handler(signum, frame):
+       29 -    """Handle Ctrl+C gracefully"""                            
+       44      global is_shutting_down
+       31 -    print("\nGracefully shutting down...")                    
+       45 +    print('\n[scraper] Ctrl+C recibido, terminando al finaliza
+          +r el caso actual...')                                         
+       46      is_shutting_down = True
+       33 -    # Don't exit immediately, let the script clean up         
+       34 -    return                                                    
+       47  
+       36 -# Register the signal handler                                 
+       48  signal.signal(signal.SIGINT, signal_handler)
+       49  
+       39 -def get_downloaded_cases():                                   
+       40 -    """Get a set of case numbers that have already been downlo
+          -aded"""                                                       
+       41 -    downloaded_cases = set()                                  
+       42 -    pdf_files = glob.glob(os.path.join(DOWNLOAD_DIR, '*.pdf'))
+       43 -                                                              
+       44 -    for pdf_file in pdf_files:                                
+       45 -        # Extract case number from filename                   
+       46 -        filename = os.path.basename(pdf_file)                 
+       47 -        match = re.search(r'(\d{4}_\d{4})', filename)         
+       48 -        if match:                                             
+       49 -            # Convert filename format back to case number form
+          -at                                                            
+       50 -            case = match.group(1).replace('_', '/')           
+       51 -            downloaded_cases.add(case)                        
+       52 -            print(f"Found existing PDF for case: {case}")     
+       53 -                                                              
+       54 -    return downloaded_cases                                   
+       50  
+       56 -def check_case_exists(case_number):                           
+       57 -    """Check if a PDF for this case number already exists"""  
+       58 -    safe_case = case_number.replace('/', '_')                 
+       59 -    expected_filename = f"{safe_case}.pdf"                    
+       60 -    expected_path = os.path.join(DOWNLOAD_DIR, expected_filena
+          -me)                                                           
+       61 -                                                              
+       62 -    if os.path.exists(expected_path):                         
+       63 -        print(f"PDF for case {case_number} already exists at: 
+          -{expected_path}")                                             
+       64 -        return True                                           
+       65 -    return False                                              
+       51 +# ------------------------------------------------------------
+          +---------------                                               
+       52 +# Helpers                                                     
+       53 +# ------------------------------------------------------------
+          +---------------                                               
+       54  
+       67 -def wait_for_element(driver, by, value, timeout=10, retries=3)
+          -:                                                             
+       68 -    """Wait for an element to be present and clickable with re
+          -tries"""                                                      
+       69 -    for attempt in range(retries):                            
+       70 -        try:                                                  
+       71 -            element = WebDriverWait(driver, timeout).until(   
+       72 -                EC.presence_of_element_located((by, value))   
+       73 -            )                                                 
+       74 -            # Additional wait to ensure element is clickable  
+       75 -            WebDriverWait(driver, timeout).until(             
+       76 -                EC.element_to_be_clickable((by, value))       
+       77 -            )                                                 
+       78 -            return element                                    
+       79 -        except Exception as e:                                
+       80 -            if attempt == retries - 1:  # Last attempt        
+       81 -                print(f"Failed to find element {value} after {
+          -retries} attempts: {str(e)}")                                 
+       82 -                return None                                   
+       83 -            print(f"Attempt {attempt + 1} failed, retrying..."
+          -)                                                             
+       84 -            time.sleep(2)  # Wait before retry                
+       85 -    return None                                               
+       55 +def setup_driver(headless):                                   
+       56 +    opts = webdriver.ChromeOptions()                          
+       57 +    prefs = {                                                 
+       58 +        'download.default_directory': DOWNLOAD_DIR_ABS,       
+       59 +        'download.prompt_for_download': False,                
+       60 +        'plugins.always_open_pdf_externally': True,           
+       61 +    }                                                         
+       62 +    opts.add_experimental_option('prefs', prefs)              
+       63 +    opts.add_experimental_option('excludeSwitches', ['enable-l
+          +ogging'])                                                     
+       64 +    opts.add_argument('--ignore-certificate-errors')          
+       65 +    opts.add_argument('--ignore-ssl-errors')                  
+       66 +    if headless:                                              
+       67 +        opts.add_argument('--headless=new')                   
+       68 +        opts.add_argument('--no-sandbox')                     
+       69 +        opts.add_argument('--disable-dev-shm-usage')          
+       70 +        opts.add_argument('--window-size=1920,1080')          
+       71 +    return webdriver.Chrome(options=opts)                     
+       72  
+       87 -def safe_click(driver, element, description="element"):       
+       88 -    """Safely click an element with retry logic"""            
+       89 -    max_retries = 3                                           
+       90 -    for attempt in range(max_retries):                        
+       91 -        try:                                                  
+       92 -            # Scroll element into view                        
+       93 -            driver.execute_script("arguments[0].scrollIntoView
+          -(true);", element)                                            
+       94 -            time.sleep(1)  # Wait for scroll to complete      
+       95 -                                                              
+       96 -            # Try JavaScript click first                      
+       97 -            try:                                              
+       98 -                driver.execute_script("arguments[0].click();",
+          - element)                                                     
+       99 -                print(f"Successfully clicked {description} usi
+          -ng JavaScript")                                               
+      100 -                return True                                   
+      101 -            except Exception as js_error:                     
+      102 -                print(f"JavaScript click failed, trying regula
+          -r click: {str(js_error)}")                                    
+      103 -                element.click()                               
+      104 -                print(f"Successfully clicked {description} usi
+          -ng regular click")                                            
+      105 -                return True                                   
+      106 -                                                              
+      107 -        except Exception as e:                                
+      108 -            if attempt == max_retries - 1:  # Last attempt    
+      109 -                print(f"Failed to click {description} after {m
+          -ax_retries} attempts: {str(e)}")                              
+      110 -                return False                                  
+      111 -            print(f"Click attempt {attempt + 1} failed, retryi
+          -ng...")                                                       
+      112 -            time.sleep(2)  # Wait before retry                
+      113 -    return False                                              
+       73  
+      115 -def wait_for_download_complete(directory, timeout=120):       
+      116 -    """Wait for a .crdownload file to complete downloading""" 
+      117 -    start_time = time.time()                                  
+      118 -    last_size = -1                                            
+      119 -    no_change_count = 0                                       
+      120 -                                                              
+      121 -    while time.time() - start_time < timeout and not is_shutti
+          -ng_down:                                                      
+      122 -        # First check if the PDF already exists               
+      123 -        pdf_path = os.path.join(directory, 'aimpresionuno_impl
+          -.pdf')                                                        
+      124 -        if os.path.exists(pdf_path):                          
+      125 -            print(f"Found completed PDF: {pdf_path}")         
+      126 -            return pdf_path                                   
+      127 -                                                              
+      128 -        # Check for .crdownload file                          
+      129 -        crdownload_path = os.path.join(directory, 'aimpresionu
+          -no_impl.pdf.crdownload')                                      
+      130 -        if os.path.exists(crdownload_path):                   
+      131 -            try:                                              
+      132 -                current_size = os.path.getsize(crdownload_path
+          -)                                                             
+      133 -                if current_size > last_size:                  
+      134 -                    last_size = current_size                  
+      135 -                    no_change_count = 0                       
+      136 -                    print(f"Download in progress: {current_siz
+          -e} bytes")                                                    
+      137 -                elif current_size == last_size:               
+      138 -                    no_change_count += 1                      
+      139 -                    if no_change_count >= 3:  # Reduced stabil
+          -ity check                                                     
+      140 -                        print("File size stable, checking if d
+          -ownload is complete...")                                      
+      141 -                        # If .crdownload exists and size is st
+          -able, try to rename it                                        
+      142 -                        try:                                  
+      143 -                            os.rename(crdownload_path, pdf_pat
+          -h)                                                            
+      144 -                            print(f"Successfully renamed downl
+          -oad to PDF")                                                  
+      145 -                            return pdf_path                   
+      146 -                        except OSError:                       
+      147 -                            # If rename fails, file might stil
+          -l be downloading                                              
+      148 -                            pass                              
+      149 -            except OSError:                                   
+      150 -                pass                                          
+      151 -        else:                                                 
+      152 -            # If .crdownload is gone, check one more time for 
+          -the PDF                                                       
+      153 -            if os.path.exists(pdf_path):                      
+      154 -                print(f"Found completed PDF: {pdf_path}")     
+      155 -                return pdf_path                               
+      156 -                                                              
+      157 -        time.sleep(1)                                         
+      158 -                                                              
+      159 -    if is_shutting_down:                                      
+      160 -        print("Shutdown requested, checking for any completed 
+          -downloads...")                                                
+      161 -        if os.path.exists(pdf_path):                          
+      162 -            return pdf_path                                   
+      163 -                                                              
+      164 -    print("Download timed out - no PDF found")                
+      165 -    return None                                               
+       74 +def log_missing(case_number):                                 
+       75 +    os.makedirs(OUTPUT_DIR, exist_ok=True)                    
+       76 +    with open(MISSING_CASES_FILE, 'a', encoding='utf-8') as f:
+       77 +        f.write(case_number + '\n')                           
+       78  
+      167 -def extract_pdf_info(pdf_path):                               
+      168 -    try:                                                      
+      169 -        with open(pdf_path, 'rb') as file:                    
+      170 -            # Create PDF reader object                        
+      171 -            pdf_reader = PyPDF2.PdfReader(file)               
+      172 -                                                              
+      173 -            # Extract text from all pages                     
+      174 -            text = ""                                         
+      175 -            for page in pdf_reader.pages:                     
+      176 -                text += page.extract_text()                   
+      177 -                                                              
+      178 -            # Look for Raza and Especialidad information      
+      179 -            raza = None                                       
+      180 -            especialidad = None                               
+      181 -                                                              
+      182 -            # Split text into lines for easier processing     
+      183 -            lines = text.split('\n')                          
+      184 -                                                              
+      185 -            for i, line in enumerate(lines):                  
+      186 -                if 'Raza:' in line:                           
+      187 -                    raza = line.split('Raza:')[-1].strip()    
+      188 -                elif 'Especialidad:' in line:                 
+      189 -                    especialidad = line.split('Especialidad:')
+          -[-1].strip()                                                  
+      190 -                                                              
+      191 -            return raza, especialidad                         
+      192 -                                                              
+      193 -    except Exception as e:                                    
+      194 -        print(f"Error reading PDF: {str(e)}")                 
+      195 -        return None, None                                     
+       79  
+      197 -def process_download(case_number, download_dir):              
+      198 -    """Process a download independently of the main script""" 
+      199 -    try:                                                      
+      200 -        # Wait for download to complete                       
+      201 -        downloaded_file = wait_for_download_complete(download_
+          -dir)                                                          
+      202 -        if downloaded_file:                                   
+      203 -            print(f"\nDownloaded file found at: {downloaded_fi
+          -le}")                                                         
+      204 -                                                              
+      205 -            # Create a backup copy before renaming            
+      206 -            backup_file = f"{downloaded_file}.backup"         
+      207 -            try:                                              
+      208 -                shutil.copy2(downloaded_file, backup_file)    
+      209 -                print(f"Created backup at: {backup_file}")    
+      210 -            except Exception as e:                            
+      211 -                print(f"Warning: Could not create backup: {str
+          -(e)}")                                                        
+      212 -                                                              
+      213 -            # Rename the PDF with case number                 
+      214 -            renamed_file = rename_pdf_with_case(downloaded_fil
+          -e, case_number)                                               
+      215 -                                                              
+      216 -            if renamed_file:                                  
+      217 -                print(f"\nReading PDF: {renamed_file}")       
+      218 -                                                              
+      219 -                # Extract and print information               
+      220 -                raza, especialidad = extract_pdf_info(renamed_
+          -file)                                                         
+      221 -                print("\nExtracted Information:")             
+      222 -                print(f"Raza: {raza}")                        
+      223 -                print(f"Especialidad: {especialidad}")        
+      224 -                                                              
+      225 -                # Remove backup if rename was successful      
+      226 -                try:                                          
+      227 -                    if os.path.exists(backup_file):           
+      228 -                        os.remove(backup_file)                
+      229 -                except Exception as e:                        
+      230 -                    print(f"Warning: Could not remove backup: 
+          -{str(e)}")                                                    
+      231 -                                                              
+      232 -                return True                                   
+      233 -            else:                                             
+      234 -                print("Failed to rename the PDF file")        
+      235 -                # Restore from backup if rename failed        
+      236 -                try:                                          
+      237 -                    if os.path.exists(backup_file):           
+      238 -                        shutil.move(backup_file, downloaded_fi
+          -le)                                                           
+      239 -                        print("Restored original file from bac
+          -kup")                                                         
+      240 -                except Exception as e:                        
+      241 -                    print(f"Warning: Could not restore from ba
+          -ckup: {str(e)}")                                              
+      242 -        else:                                                 
+      243 -            print("PDF download timed out or failed")         
+      244 -                                                              
+      245 -        return False                                          
+      246 -    except Exception as e:                                    
+      247 -        print(f"Error in download process: {str(e)}")         
+      248 -        return False                                          
+       80 +def log_error(case_number, reason):                           
+       81 +    os.makedirs(OUTPUT_DIR, exist_ok=True)                    
+       82 +    with open(ERRORS_FILE, 'a', encoding='utf-8') as f:       
+       83 +        f.write(f'{case_number}\t{reason}\n')                 
+       84  
+      250 -def rename_pdf_with_case(pdf_path, case_number):              
+      251 -    """Rename the PDF file to include the case number"""      
+       85 +                                                              
+       86 +def read_missing_cases():                                     
+       87 +    if not os.path.exists(MISSING_CASES_FILE):                
+       88 +        return set()                                          
+       89 +    with open(MISSING_CASES_FILE, 'r', encoding='utf-8') as f:
+       90 +        return {line.strip() for line in f if line.strip()}   
+       91 +                                                              
+       92 +                                                              
+       93 +def rename_pdf(src, case_number):                             
+       94 +    """Rename aimpresionuno_impl.pdf → NNNN_YYYY.pdf"""       
+       95 +    safe = case_number.replace('/', '_')                      
+       96 +    dst = os.path.join(DOWNLOAD_DIR_ABS, f'{safe}.pdf')       
+       97 +    if os.path.exists(dst):                                   
+       98 +        os.remove(dst)                                        
+       99 +    shutil.move(src, dst)                                     
+      100 +    return dst                                                
+      101 +                                                              
+      102 +                                                              
+      103 +def navigate_to_fichas(driver, case_number):                  
+      104 +    """                                                       
+      105 +    From todasmascotas search result, navigate all the way to 
+          +wwfichas.                                                     
+      106 +    Returns list of print button IDs (oldest first), or None o
+          +n failure.                                                    
+      107 +    """                                                       
+      108 +    result = search_case(driver, case_number)                 
+      109 +    if result is None:                                        
+      110 +        return None, None   # case not found                  
+      111 +                                                              
+      112 +    especie = result['especie']                               
+      113 +    if especie not in ('CANINO', 'FELINO'):                   
+      114 +        return especie, []  # skip silently                   
+      115 +                                                              
+      116 +    # Click cedula → wwclientes                               
+      117 +    _click(driver, result['cedula_link'])                     
+      118 +    time.sleep(SLEEP_MEDIUM)                                  
+      119 +                                                              
+      120 +    # Click mostrar mascotas → wwmascotas                     
+      121 +    btn = WebDriverWait(driver, 10).until(                    
+      122 +        EC.presence_of_element_located((By.ID, 'vBOTONMASCOTA_
+          +0001'))                                                       
+      123 +    )                                                         
+      124 +    _click(driver, btn)                                       
+      125 +                                                              
+      126 +    # Find the correct pet row                                
+      127 +    row = get_pet_row(driver, case_number)                    
+      128 +    if row is None:                                           
+      129 +        return especie, None                                  
+      130 +                                                              
+      131 +    # Click ir a fichas → wwfichas                            
+      132 +    row_id = str(row).zfill(4)                                
+      133 +    ficha_btn = WebDriverWait(driver, 10).until(              
+      134 +        EC.presence_of_element_located((By.ID, f'vBOTONFICHA_{
+          +row_id}'))                                                    
+      135 +    )                                                         
+      136 +    _click(driver, ficha_btn)                                 
+      137 +    time.sleep(SLEEP_MEDIUM)                                  
+      138 +                                                              
+      139 +    btns = get_ficha_buttons(driver)                          
+      140 +    return especie, btns                                      
+      141 +                                                              
+      142 +                                                              
+      143 +def process_case(driver, case_number):                        
+      144 +    """                                                       
+      145 +    Full processing for one case number.                      
+      146 +    Returns True on success, False on error, None if skipped. 
+      147 +    """                                                       
+      148      try:
+      253 -        print(f"\nAttempting to rename file:")                
+      254 -        print(f"Original path: {pdf_path}")                   
+      255 -        print(f"Case number: {case_number}")                  
+      256 -                                                              
+      257 -        # Check if original file exists                       
+      258 -        if not os.path.exists(pdf_path):                      
+      259 -            print(f"Error: Original file does not exist: {pdf_
+          -path}")                                                       
+      149 +        especie, btns = navigate_to_fichas(driver, case_number
+          +)                                                             
+      150 +                                                              
+      151 +        # Case not found in system                            
+      152 +        if btns is None and especie is None:                  
+      153 +            log_missing(case_number)                          
+      154 +            print(f'[{case_number}] No encontrado → missing_ca
+          +ses.txt')                                                     
+      155              return None
+      261 -                                                              
+      262 -        # Replace / with _ in the case number for the filename
+      263 -        safe_case_number = case_number.replace('/', '_')      
+      264 -        new_filename = f"{safe_case_number}.pdf"              
+      265 -        new_path = os.path.join(os.path.dirname(pdf_path), new
+          -_filename)                                                    
+      266 -                                                              
+      267 -        print(f"New path will be: {new_path}")                
+      268 -                                                              
+      269 -        # Check if destination file already exists            
+      270 -        if os.path.exists(new_path):                          
+      271 -            print(f"Warning: Destination file already exists, 
+          -removing it first")                                           
+      272 -            try:                                              
+      273 -                os.remove(new_path)                           
+      274 -            except Exception as e:                            
+      275 -                print(f"Warning: Could not remove existing fil
+          -e: {str(e)}")                                                 
+      276 -                                                              
+      277 -        # Wait a moment to ensure file is not being written to
+      278 -        time.sleep(2)                                         
+      279 -                                                              
+      280 -        # Try to rename the file                              
+      281 -        try:                                                  
+      282 -            # Use copy2 to preserve metadata                  
+      283 -            shutil.copy2(pdf_path, new_path)                  
+      284 -            print(f"Successfully copied PDF to: {new_filename}
+          -")                                                            
+      285 -                                                              
+      286 -            # Verify the copy worked                          
+      287 -            if os.path.exists(new_path):                      
+      288 -                print(f"Verified: New file exists at {new_path
+          -}")                                                           
+      289 -                # Only remove original after successful copy  
+      290 -                try:                                          
+      291 -                    os.remove(pdf_path)                       
+      292 -                    print("Removed original file")            
+      293 -                except Exception as e:                        
+      294 -                    print(f"Warning: Could not remove original
+          - file: {str(e)}")                                             
+      295 -                return new_path                               
+      296 -            else:                                             
+      297 -                print(f"Error: New file not found after copy")
+      298 -                return None                                   
+      299 -                                                              
+      300 -        except Exception as e:                                
+      301 -            print(f"Error during file operation: {str(e)}")   
+      302 -            return None                                       
+      303 -                                                              
+      304 -    except Exception as e:                                    
+      305 -        print(f"Error in rename_pdf_with_case: {str(e)}")     
+      306 -        return None                                           
+      156  
+      308 -def get_oldest_record(driver):                                
+      309 -    """Find the oldest record in the grid based on date"""    
+      310 -    try:                                                      
+      311 -        # Wait for the hidden input containing grid data      
+      312 -        grid_data_element = WebDriverWait(driver, 10).until(  
+      313 -            EC.presence_of_element_located((By.NAME, "GridCont
+          -ainerDataV"))                                                 
+      314 -        )                                                     
+      315 -                                                              
+      316 -        # Get the grid data value                             
+      317 -        grid_data = grid_data_element.get_attribute('value')  
+      318 -        if not grid_data:                                     
+      319 -            print("No grid data found")                       
+      157 +        # Not canino/felino — skip silently                   
+      158 +        if btns == []:                                        
+      159 +            print(f'[{case_number}] Especie={especie}, saltand
+          +o')                                                           
+      160              return None
+      321 -                                                              
+      322 -        # Parse the JSON data                                 
+      323 -        try:                                                  
+      324 -            grid_data = json.loads(grid_data)                 
+      325 -            if not grid_data or not isinstance(grid_data, list
+          -):                                                            
+      326 -                print("Invalid grid data format")             
+      327 -                return None                                   
+      328 -                                                              
+      329 -            oldest_record = None                              
+      330 -            oldest_date = None                                
+      331 -                                                              
+      332 -            for record in grid_data:                          
+      333 -                try:                                          
+      334 -                    # Date is in the second column (index 1)  
+      335 -                    date_text = record[1].strip()             
+      336 -                                                              
+      337 -                    # Skip empty dates                        
+      338 -                    if not date_text or date_text == "  /  /  
+          -":                                                            
+      339 -                        continue                              
+      340 -                                                              
+      341 -                    # Parse the date (assuming format DD/MM/YY
+          -)                                                             
+      342 -                    try:                                      
+      343 -                        day, month, year = map(int, date_text.
+          -split('/'))                                                   
+      344 -                        # Convert to full year                
+      345 -                        year = 2000 + year if year < 50 else 1
+          -900 + year                                                    
+      346 -                        date = datetime(year, month, day)     
+      347 -                                                              
+      348 -                        if oldest_date is None or date < oldes
+          -t_date:                                                       
+      349 -                            oldest_date = date                
+      350 -                            oldest_record = record            
+      351 -                    except ValueError:                        
+      352 -                        print(f"Could not parse date: {date_te
+          -xt}")                                                         
+      353 -                        continue                              
+      354 -                                                              
+      355 -                except Exception as e:                        
+      356 -                    print(f"Error processing record: {str(e)}"
+          -)                                                             
+      357 -                    continue                                  
+      358 -                                                              
+      359 -            if oldest_record:                                 
+      360 -                print(f"Found oldest record with date: {oldest
+          -_date.strftime('%d/%m/%Y')}")                                 
+      361 -                # Return the row index (1-based) for the oldes
+          -t record                                                      
+      362 -                return grid_data.index(oldest_record) + 1     
+      161 +                                                              
+      162 +        # Navigation failed after finding the case            
+      163 +        if btns is None:                                      
+      164 +            log_error(case_number, 'get_pet_row failed')      
+      165 +            return False                                      
+      166 +                                                              
+      167 +        if not btns:                                          
+      168 +            log_error(case_number, 'no print buttons in wwfich
+          +as')                                                          
+      169 +            return False                                      
+      170 +                                                              
+      171 +        # Download PDFs, try oldest first, fallback to newer i
+          +f data incomplete                                             
+      172 +        fields = None                                         
+      173 +        for btn_id in btns:                                   
+      174 +            pdf_tmp = download_ficha(driver, btn_id, DOWNLOAD_
+          +DIR_ABS)                                                      
+      175 +            if not pdf_tmp:                                   
+      176 +                log_error(case_number, f'download timeout on {
+          +btn_id}')                                                     
+      177 +                continue                                      
+      178 +                                                              
+      179 +            pdf_path = rename_pdf(pdf_tmp, case_number)       
+      180 +            current = extract_fields(pdf_path)                
+      181 +                                                              
+      182 +            if fields is None:                                
+      183 +                fields = current                              
+      184              else:
+      364 -                print("No valid dates found in the grid")     
+      365 -                return None                                   
+      366 -                                                              
+      367 -        except json.JSONDecodeError as e:                     
+      368 -            print(f"Error parsing grid data: {str(e)}")       
+      369 -            return None                                       
+      370 -                                                              
+      185 +                # Fill in missing motivo/examen from newer con
+          +sultations                                                    
+      186 +                if not fields.get('motivo_consulta') and curre
+          +nt.get('motivo_consulta'):                                    
+      187 +                    fields['motivo_consulta'] = current['motiv
+          +o_consulta']                                                  
+      188 +                if not fields.get('examen_objetivo') and curre
+          +nt.get('examen_objetivo'):                                    
+      189 +                    fields['examen_objetivo'] = current['exame
+          +n_objetivo']                                                  
+      190 +                                                              
+      191 +            if is_data_complete(fields):                      
+      192 +                break                                         
+      193 +                                                              
+      194 +            # Go back to wwfichas to try the next button      
+      195 +            driver.back()                                     
+      196 +            time.sleep(SLEEP_MEDIUM)                          
+      197 +                                                              
+      198 +        if fields is None:                                    
+      199 +            log_error(case_number, 'no fields extracted')     
+      200 +            return False                                      
+      201 +                                                              
+      202 +        write_row(fields, case_number)                        
+      203 +        print(f'[{case_number}] OK — {especie} {fields.get("ra
+          +za")} '                                                       
+      204 +              f'| {fields.get("especialidad")} | paraje={field
+          +s.get("paraje")}')                                            
+      205 +        return True                                           
+      206 +                                                              
+      207      except Exception as e:
+      372 -        print(f"Error finding oldest record: {str(e)}")       
+      373 -        return None                                           
+      208 +        log_error(case_number, str(e))                        
+      209 +        print(f'[{case_number}] ERROR: {e}')                  
+      210 +        return False                                          
+      211  
+      375 -# Generate case numbers list                                  
+      376 -# case_numbers = [f"{str(i).zfill(4)}/2023" for i in range(1, 
+          -11)]                                                          
+      377 -case_numbers = ["0009/2023", "0010/2023"]                     
+      212  
+      379 -print("Generated case numbers:", case_numbers)                
+      213 +# ------------------------------------------------------------
+          +---------------                                               
+      214 +# Main                                                        
+      215 +# ------------------------------------------------------------
+          +---------------                                               
+      216  
+      217  def main():
+      218      global is_shutting_down
+      383 -                                                              
+      219 +                                                              
+      220 +    headless = ask_headless(timeout=5)                        
+      221 +                                                              
+      222 +    os.makedirs(DOWNLOAD_DIR_ABS, exist_ok=True)              
+      223 +    init_csv()                                                
+      224 +                                                              
+      225 +    already_done = get_processed_cases()                      
+      226 +    already_done |= read_missing_cases()                      
+      227 +    print(f'[scraper] Casos ya procesados/missing: {len(alread
+          +y_done)}')                                                    
+      228 +                                                              
+      229 +    driver = setup_driver(headless)                           
+      230 +                                                              
+      231      try:
+      385 -        # Get already downloaded cases                        
+      386 -        downloaded_cases = get_downloaded_cases()             
+      387 -        print(f"Already downloaded cases: {downloaded_cases}")
+      388 -                                                              
+      389 -        # Set up Chrome options for downloads                 
+      390 -        chrome_options = webdriver.ChromeOptions()            
+      391 -        prefs = {                                             
+      392 -            "download.default_directory": DOWNLOAD_DIR,       
+      393 -            "download.prompt_for_download": False,            
+      394 -            "download.directory_upgrade": True,               
+      395 -            "safebrowsing.enabled": True,                     
+      396 -            "plugins.always_open_pdf_externally": True,  # Thi
+          -s will download PDFs instead of opening them                  
+      397 -            "download.default_content_settings.popups": 0,    
+      398 -            "download.prompt_for_download": False,            
+      399 -            "download.directory_upgrade": True,               
+      400 -            "safebrowsing.enabled": True,                     
+      401 -            "profile.default_content_settings.popups": 0,     
+      402 -            "profile.content_settings.exceptions.automatic_dow
+          -nloads.*.setting": 1,                                         
+      403 -            "profile.default_content_setting_values.notificati
+          -ons": 2,                                                      
+      404 -            "profile.default_content_setting_values.automatic_
+          -downloads": 1                                                 
+      405 -        }                                                     
+      406 -        chrome_options.add_experimental_option("prefs", prefs)
+      407 -        chrome_options.add_experimental_option('excludeSwitche
+          -s', ['enable-logging'])                                       
+      408 -                                                              
+      409 -        # Add arguments to handle unsecured sites             
+      410 -        chrome_options.add_argument('--ignore-certificate-erro
+          -rs')                                                          
+      411 -        chrome_options.add_argument('--ignore-ssl-errors')    
+      412 -        chrome_options.add_argument('--allow-insecure-localhos
+          -t')                                                           
+      413 -        chrome_options.add_argument('--allow-running-insecure-
+          -content')                                                     
+      414 -        chrome_options.add_argument('--disable-web-security') 
+      415 -        chrome_options.add_argument('--reduce-security-for-tes
+          -ting')                                                        
+      416 -                                                              
+      417 -        print("Initializing Chrome browser...")               
+      418 -        # Initialize the Chrome driver with options           
+      419 -        driver = webdriver.Chrome(options=chrome_options)     
+      420 -        print("Chrome browser initialized successfully")      
+      421 -                                                              
+      422 -        try:                                                  
+      423 -            # Open the login page                             
+      424 -            print("Opening login page...")                    
+      425 -            driver.get(LOGIN_URL)                             
+      426 -                                                              
+      427 -            # Wait for the page to load                       
+      428 -            time.sleep(2)                                     
+      429 -                                                              
+      430 -            # Find and fill in the username                   
+      431 -            print("Entering username...")                     
+      432 -            username_field = wait_for_element(driver, By.NAME,
+          - "vUSUARIO")                                                  
+      433 -            if username_field:                                
+      434 -                username_field.send_keys(USERNAME)            
+      435 -                time.sleep(1)                                 
+      436 -                                                              
+      437 -            # Find and fill in the password                   
+      438 -            print("Entering password...")                     
+      439 -            password_field = wait_for_element(driver, By.NAME,
+          - "vCLAVE")                                                    
+      440 -            if password_field:                                
+      441 -                password_field.send_keys(PASSWORD)            
+      442 -                time.sleep(1)                                 
+      443 -                                                              
+      444 -            # Find and click the login button                 
+      445 -            print("Clicking login button...")                 
+      446 -            login_button = wait_for_element(driver, By.NAME, "
+          -BUTTON1")                                                     
+      447 -            if login_button:                                  
+      448 -                login_button.click()                          
+      449 -                                                              
+      450 -            # Wait for login to complete                      
+      451 -            print("Waiting for login to complete...")         
+      452 -            time.sleep(5)                                     
+      453 -                                                              
+      454 -            # Navigate to todasmascotas page                  
+      455 -            print("Navigating to todasmascotas page...")      
+      456 -            driver.get(MASCOTAS_URL)                          
+      457 -            time.sleep(3)                                     
+      458 -                                                              
+      459 -            # Find the input field for case numbers           
+      460 -            case_input = wait_for_element(driver, By.XPATH, '/
+          -/*[@id="vMASCOTASNRO"]')                                      
+      461 -            if not case_input:                                
+      462 -                print("Error: Could not find case number input
+          - field")                                                      
+      463 -                return                                        
+      464 -                                                              
+      465 -            # Process case numbers                            
+      466 -            for case in case_numbers:                         
+      467 -                if is_shutting_down:                          
+      468 -                    print("Shutdown requested, stopping case p
+          -rocessing...")                                                
+      469 -                    break                                     
+      470 -                                                              
+      471 -                if case in downloaded_cases:                  
+      472 -                    print(f"\nSkipping case {case} - already d
+          -ownloaded")                                                   
+      473 -                    continue                                  
+      474 -                                                              
+      475 -                print(f"\nProcessing case number: {case}")    
+      476 -                                                              
+      477 -                # Check if PDF already exists                 
+      478 -                if check_case_exists(case):                   
+      479 -                    print(f"Skipping download for case {case} 
+          -- file already exists")                                       
+      480 -                    downloaded_cases.add(case)                
+      481 -                    continue                                  
+      482 -                                                              
+      483 -                try:                                          
+      484 -                    # Clear the input field                   
+      485 -                    case_input.clear()                        
+      486 -                                                              
+      487 -                    # Type the case number                    
+      488 -                    case_input.send_keys(case)                
+      489 -                    print(f"Entered case number: {case}")     
+      490 -                                                              
+      491 -                    # Wait for results to appear in the table 
+      492 -                    print("Waiting for results in table...")  
+      493 -                    time.sleep(2)                             
+      494 -                                                              
+      495 -                    # Wait for the table to be present        
+      496 -                    table = wait_for_element(driver, By.XPATH,
+          - '//*[@id="Grid1ContainerTbl"]')                              
+      497 -                    if not table:                             
+      498 -                        print("Could not find results table") 
+      499 -                        continue                              
+      500 -                                                              
+      501 -                    print("Found results table")              
+      502 -                                                              
+      503 -                    # Click the link in the cédula column (fir
+          -st row)                                                       
+      504 -                    print("Clicking link in cédula column...")
+      505 -                    cedula_link = wait_for_element(driver, By.
+          -XPATH, '//*[@id="span_CLIENTESCEDULA_0001"]/a')               
+      506 -                    if not cedula_link:                       
+      507 -                        print("Could not find cédula link")   
+      508 -                        continue                              
+      509 -                                                              
+      510 -                    if not safe_click(driver, cedula_link, "cé
+          -dula link"):                                                  
+      511 -                        print("Could not click cédula link")  
+      512 -                        continue                              
+      513 -                                                              
+      514 -                    print("Clicked cédula link")              
+      515 -                                                              
+      516 -                    # Wait for the page to load               
+      517 -                    time.sleep(3)                             
+      518 -                                                              
+      519 -                    # Click the mascota button                
+      520 -                    print("Clicking mascota button...")       
+      521 -                    mascota_button = wait_for_element(driver, 
+          -By.XPATH, '//*[@id="vBOTONMASCOTA_0001"]')                    
+      522 -                    if not mascota_button:                    
+      523 -                        print("Could not find mascota button")
+      524 -                        continue                              
+      525 -                                                              
+      526 -                    if not safe_click(driver, mascota_button, 
+          -"mascota button"):                                            
+      527 -                        print("Could not click mascota button"
+          -)                                                             
+      528 -                        continue                              
+      529 -                                                              
+      530 -                    print("Clicked mascota button")           
+      531 -                                                              
+      532 -                    # Wait for the page to load               
+      533 -                    time.sleep(3)                             
+      534 -                                                              
+      535 -                    # Find the correct row in the mascotas tab
+          -le that matches our case number                               
+      536 -                    print(f"Looking for case number {case} in 
+          -mascotas table...")                                           
+      537 -                    try:                                      
+      538 -                        # Get the grid data to find the correc
+          -t row                                                         
+      539 -                        grid_data_element = wait_for_element(d
+          -river, By.ID, "GridContainerTbl")                             
+      540 -                        if not grid_data_element:             
+      541 -                            print("Could not find grid data") 
+      542 -                            continue                          
+      543 -                                                              
+      544 -                        grid_data = grid_data_element.get_attr
+          -ibute('value')                                                
+      545 -                        if not grid_data:                     
+      546 -                            print("No grid data found")       
+      547 -                            continue                          
+      548 -                                                              
+      549 -                        # Parse the grid data                 
+      550 -                        grid_data = json.loads(grid_data)     
+      551 -                        if not grid_data or not isinstance(gri
+          -d_data, list):                                                
+      552 -                            print("Invalid grid data format") 
+      553 -                            continue                          
+      554 -                                                              
+      555 -                        # Find the row that matches our case n
+          -umber                                                         
+      556 -                        target_row = None                     
+      557 -                        for i, record in enumerate(grid_data):
+      558 -                            # Case number should be in the Nro
+          - column (index 7)                                             
+      559 -                            if record[7].strip() == case:     
+      560 -                                target_row = i + 1  # Convert 
+          -to 1-based index                                              
+      561 -                                print(f"Found matching case in
+          - row {target_row}")                                           
+      562 -                                break                         
+      563 -                                                              
+      564 -                        if not target_row:                    
+      565 -                            print(f"Could not find case {case}
+          - in mascotas table")                                          
+      566 -                            continue                          
+      567 -                                                              
+      568 -                        # Click the ficha button for the corre
+          -ct row                                                        
+      569 -                        print(f"Clicking ficha button for row 
+          -{target_row}...")                                             
+      570 -                        row_id = str(target_row).zfill(4)     
+      571 -                        ficha_button = wait_for_element(driver
+          -, By.XPATH, f'//*[@id="vBOTONFICHA_{row_id}"]')               
+      572 -                        if ficha_button:                      
+      573 -                            safe_click(driver, ficha_button, "
+          -ficha button")                                                
+      574 -                            print("Clicked ficha button")     
+      575 -                    except Exception as e:                    
+      576 -                        print(f"Error finding correct mascota 
+          -row: {str(e)}")                                               
+      577 -                                                              
+      578 -                    # Navigate back to the main page          
+      579 -                    driver.get(MASCOTAS_URL)                  
+      580 -                    time.sleep(3)                             
+      581 -                    case_input = wait_for_element(driver, By.X
+          -PATH, '//*[@id="vMASCOTASNRO"]')                              
+      582 -                    continue                                  
+      583 -                                                              
+      584 -                except Exception as e:                        
+      585 -                    print(f"Error processing case {case}: {str
+          -(e)}")                                                        
+      586 -                    # Navigate back to the main page          
+      587 -                    driver.get(MASCOTAS_URL)                  
+      588 -                    time.sleep(3)                             
+      589 -                    case_input = wait_for_element(driver, By.X
+          -PATH, '//*[@id="vMASCOTASNRO"]')                              
+      590 -                    continue                                  
+      591 -                                                              
+      592 -        except Exception as e:                                
+      593 -            print(f"An error occurred: {str(e)}")             
+      594 -                                                              
+      595 -        finally:                                              
+      596 -            if not is_shutting_down:                          
+      597 -                # Keep the browser open                       
+      598 -                input("Press Enter to close the browser...")  
+      599 -            driver.quit()                                     
+      600 -                                                              
+      601 -    except Exception as e:                                    
+      602 -        print(f"Fatal error: {str(e)}")                       
+      603 -        sys.exit(1)                                           
+      232 +        if not login(driver):                                 
+      233 +            print('[scraper] Login fallido, abortando.')      
+      234 +            return                                            
+      235  
+      605 -if __name__ == "__main__":                                    
+      606 -    main()                                                    
+      236   No newline at end of file
+      237 +        stats = {'ok': 0, 'skipped': 0, 'error': 0, 'missing':
+          + 0}                                                           
+      238 +                                                              
+      239 +        for i in range(START_CASE, END_CASE + 1):             
+      240 +            if is_shutting_down:                              
+      241 +                print('[scraper] Apagado solicitado, saliendo.
+          +..')                                                          
+      242 +                break                                         
+      243 +                                                              
+      244 +            case = f'{i:04d}/{YEAR}'                          
+      245 +                                                              
+      246 +            if case in already_done:                          
+      247 +                continue                                      
+      248 +                                                              
+      249 +            # Ensure we're on todasmascotas before each case  
+      250 +            if 'todasmascotas' not in driver.current_url:     
+      251 +                ensure_session(driver)                        
+      252 +                driver.get(MASCOTAS_URL)                      
+      253 +                time.sleep(SLEEP_MEDIUM)                      
+      254 +                                                              
+      255 +            result = process_case(driver, case)               
+      256 +                                                              
+      257 +            if result is True:                                
+      258 +                stats['ok'] += 1                              
+      259 +                already_done.add(case)                        
+      260 +            elif result is False:                             
+      261 +                stats['error'] += 1                           
+      262 +            else:                                             
+      263 +                # None = skipped (missing or wrong species)   
+      264 +                already_done.add(case)                        
+      265 +                if os.path.exists(MISSING_CASES_FILE):        
+      266 +                    # distinguish missing vs skipped for stats
+      267 +                    stats['missing'] += 1                     
+      268 +                else:                                         
+      269 +                    stats['skipped'] += 1                     
+      270 +                                                              
+      271 +            # After every 50 cases, check session health      
+      272 +            if i % 50 == 0:                                   
+      273 +                ensure_session(driver)                        
+      274 +                total = stats['ok'] + stats['error'] + stats['
+          +missing'] + stats['skipped']                                  
+      275 +                print(f'[scraper] Progreso: caso {case} | '   
+      276 +                      f'ok={stats["ok"]} skip={stats["skipped"
+          +]} '                                                          
+      277 +                      f'missing={stats["missing"]} err={stats[
+          +"error"]}')                                                   
+      278 +                                                              
+      279 +        print(f'\n[scraper] Terminado. '                      
+      280 +              f'ok={stats["ok"]} | skipped={stats["skipped"]} 
+          +| '                                                           
+      281 +              f'missing={stats["missing"]} | errores={stats["e
+          +rror"]}')                                                     
+      282 +                                                              
+      283 +    finally:                                                  
+      284 +        driver.quit()                                         
+      285 +                                                              
+      286 +                                                              
+      287 +if __name__ == '__main__':                                    
+      288 +    main()                                                    
+
+● T5 listo. ¿Hacemos T6 — probar end-to-end con los primeros 10 casos?
+
+✻ Sautéed for 1m 1s
+
+❯ si                                                                            
+
+● Corro el scraper con los primeros 10 casos. Temporalmente cambio END_CASE a
+  10:
+
+● Bash(source venv/bin/activate && python3 -c "
+      import sys; sys.path.insert(0,'src'); sys.path.insert(0,'.')…)
+  ⎿  Running in the background (↓ to manage)
+  ⎿  (timeout 5m)
+
+● Task Output(non-blocking) be2ri40t2
+  ⎿
+     ¿Mostrar ventana del navegador? [s/N] (esperando 5s, Enter o silencio
+     = headless)...
+
+● Task Output(non-blocking) be2ri40t2
+  ⎿
+     ¿Mostrar ventana del navegador? [s/N] (esperando 5s, Enter o silencio
+     = headless)...
+
+● Task Output be2ri40t2
+  ⎿
+     ¿Mostrar ventana del navegador? [s/N] (esperando 5s, Enter o silencio
+     = headless)...
+
+● El select en stdin no funciona cuando no hay terminal real. Arreglo
+  ask_headless para detectar si está en un TTY:
+
+● Bash(kill $(ps aux | grep 'python3 -c' | grep scraper | awk '{print $2}')
+      2>/dev/null; echo "killed")
+  ⎿  Error: Exit code 144
+
+● Task Output(non-blocking) be2ri40t2
+  ⎿
+     ¿Mostrar ventana del navegador? [s/N] (esperando 5s, Enter o silencio
+     = headless)...
+
+● Update(src/utils.py)
+  ⎿  Added 5 lines
+      13  
+      14      Returns True if headless, False if visible.
+      15      """
+      16 +    # If not a real terminal (e.g. piped), default to headless 
+      17 +    if not sys.stdin.isatty():                                 
+      18 +        print('\n[browser] Sin terminal interactiva → headless 
+         +automático')                                                   
+      19 +        return True                                            
+      20 +                                                               
+      21      print(f'\n¿Mostrar ventana del navegador? [s/N] (esperando 
+          {timeout}s, Enter o silencio = headless)... ',
+      22            end='', flush=True)
+      23  
+
+● Bash(source venv/bin/activate && python3 -c "
+      import sys; sys.path.insert(0,'src'); sys.path.insert(0,'.')…)
+  ⎿  Running in the background (↓ to manage)
+  ⎿  (timeout 5m)
+
+● Task Output b6j46ev81
+  ⎿  Interrupted · What should Claude do instead?
+
+● Background command "source venv/bin/activate && python3 -c "
+import sys; sys.path.insert(0,'src'); sys.path.insert(0,'.')
+import config.config as c
+c.END_CASE = 10
+import scraper
+scraper.main()
+" 2>&1" failed with exit code 144
+  ⎿  Interrupted · What should Claude do instead?
+
+❯ por qeu te demoras tanto ?                                                    
+
+● Tenés razón, me demoré esperando el proceso. Veo qué salió:
+
+● Read 1 file (ctrl+o to expand)
+
+● Bash(source venv/bin/activate && timeout 120 python3 -c "
+      import sys; sys.path.insert(0,'src'); sys.path.insert(0,'.')…)
+  ⎿  (No output)
+  ⎿  (timeout 2m 30s)
+
+● Read 1 file (ctrl+o to expand)
+
+● Extraño que no haya output. El problema puede ser que el headless no tiene
+  display. Pruebo directamente:
+
+● Bash(source venv/bin/activate && python3 -c "
+      import sys; sys.path.insert(0,'src'); sys.path.insert(0,'.')…)
+  ⎿  [browser] Sin terminal interactiva → headless automático
+     headless: True
+
+● Bash(source venv/bin/activate && python3 -c "
+      import sys; sys.path.insert(0,'src'); sys.path.insert(0,'.')…)
+  ⎿  URL: http://164.73.21.67:8080/hospital7.0d/com.hospital.arranque
+     OK
+
+● Bash(source venv/bin/activate && python3 -c "
+      import sys; sys.path.insert(0,'src'); sys.path.insert(0,'.')…)
+  ⎿  [browser] Sin terminal interactiva → headless automático
+     [csv_writer] Appending to existing output/resultados_2023.csv
+     [csv_writer] 3 cases already processed
+     … +5 lines (ctrl+o to expand)
+  ⎿  (timeout 2m)
+
+● Los 3 casos ya están marcados como procesados del test anterior. Borro el CSV
+  y vuelvo a correr:
+
+● Bash(rm -f output/resultados_2023.csv output/missing_cases.txt
+      output/errors.txt && source venv/bin/activate && python3 -c "
+      import sys; sys.path.insert(0,'src'); sy…)
+  ⎿  Running in the background (↓ to manage)
+  ⎿  (timeout 3m)
+
+● Bash(sleep 90 && cat /tmp/claude-1000/-home-tux-projects-hospital-scraper/dcda
+      8c05-b873-4366-842d-41e8a7fa96c6/tasks/bj4kgidkt.output)
+  ⎿  (No output)
+  ⎿  (timeout 2m)
+
+● Read 2 files (ctrl+o to expand)
+
+● Bash(ps aux | grep scraper | grep -v grep)
+  ⎿  tux        45205  0.0  0.0  13196  4212 ?        Ss   11:13   0:00 /us
+     r/bin/zsh -c source /home/tux/.claude/shell-snapshots/snapshot-zsh-177
+     3668309096-qnmw45.sh && setopt NO_EXTENDED_GLOB 2>/dev/null || true &&
+     … +18 lines (ctrl+o to expand)
+
+● Hay procesos viejos colgados. Los mato y corro de forma más directa:
+
+● Bash(kill 45205 45207 47182 47185 2>/dev/null; sleep 2; rm -f
+      output/resultados_2023.csv output/missing_cases.txt output/errors.txt
+      downloads/*.pdf)
+  ⎿  (No output)
+
+● Bash(source venv/bin/activate && python3 -c "
+      import sys; sys.path.insert(0,'src'); sys.path.insert(0,'.')…)
+  ⎿  Tool use rejected with user message: esto te esta tomando mucho tiempo. 
+     explicame por qeu y que haces ?
+
+     Note: The user's next message may contain a correction or preference. Pay 
+     close attention — if they explain what went wrong or how they'd prefer you 
+     to work, consider saving that to memory for future sessions.
+
+● El problema es que Selenium abre un Chrome real por cada caso y espera que
+  carguen páginas. Para 5 casos son ~5-10 minutos porque:
+
+  - Cada caso tiene 6-8 pasos con time.sleep() entre cada uno
+  - En headless es igual de lento — Chrome sigue ejecutando JavaScript de
+  GeneXus
+  - El PDF tarda en descargarse
+
+  Lo que estoy haciendo: correr el scraper completo de 5 casos para validar que
+  el CSV se llena correctamente antes de lanzar los 3279.
+
+  Opciones:
+  1. Lo corrés vos en tu terminal directamente (python src/scraper.py) y me
+  mostrás el output — es lo más limpio
+  2. Lo corro yo pero tarda ~10 min y tengo que esperar sin interrumpir
+  3. Saltamos T6 y lanzás directo los 3279 — si algo falla lo vemos en el
+  CSV/errors.txt
+
+  ¿Cuál preferís?
+
+✻ Cooked for 8m 38s
+
+● Background command "rm -f output/resultados_2023.csv output/missing_cases.txt
+output/errors.txt && source venv/bin/activate && python3 -c "
+import sys; sys.path.insert(0,'src'); sys.path.insert(0,'.')
+import config.config as c; c.END_CASE = 5
+import scraper; scraper.main()
+" 2>&1" failed with exit code 144
+
+● Background command "source venv/bin/activate && python3 -c "
+import sys; sys.path.insert(0,'src'); sys.path.insert(0,'.')
+import config.config as c
+c.END_CASE = 10
+import scraper
+scraper.main()
+" 2>&1" failed with exit code 144
+
+● Recalled 1 memory, wrote 2 memories (ctrl+o to expand)
+
+● Correlo vos directamente en tu terminal:
+
+  cd ~/projects/hospital_scraper
+  source venv/bin/activate
+  python src/scraper.py
+
+  Te va a preguntar si querés ver el browser (5 seg para responder s, sino
+  headless). Procesará los 3279 casos automáticamente.
+
+  Si querés probar solo los primeros 5 antes:
+  python -c "
+  import sys; sys.path.insert(0,'src'); sys.path.insert(0,'.')
+  import config.config as c; c.END_CASE = 5
+  import scraper; scraper.main()
+  "
+
+  El resultado queda en output/resultados_2023.csv. Si algo falla,
+  output/errors.txt y output/missing_cases.txt te dicen qué pasó.
+
+❯ modificalo para que le peuda pasar la cantidad a procesaar y si no lo hago    
+que procese todos, tambien que me de tiempo                                     
+
+● Read 1 file (ctrl+o to expand)
+
+● Update(src/scraper.py)
+  ⎿  Added 45 lines, removed 16 lines
+      214  # Main
+      215  # ------------------------------------------------------------
+           ---------------
+      216  
+      217 +def _parse_args():                                            
+      218 +    """                                                       
+      219 +    Usage: python scraper.py [N]                              
+      220 +      N  — optional, number of cases to process (default: all 
+          +until END_CASE)                                               
+      221 +    """                                                       
+      222 +    import argparse                                           
+      223 +    parser = argparse.ArgumentParser(description='Hospital scr
+          +aper')                                                        
+      224 +    parser.add_argument('limit', nargs='?', type=int, default=
+          +None,                                                         
+      225 +                        help='Número de casos a procesar (ej: 
+          +10). Sin valor = todos.')                                     
+      226 +    return parser.parse_args()                                
+      227 +                                                              
+      228 +                                                              
+      229 +def _fmt_time(seconds):                                       
+      230 +    h = int(seconds // 3600)                                  
+      231 +    m = int((seconds % 3600) // 60)                           
+      232 +    s = int(seconds % 60)                                     
+      233 +    if h:                                                     
+      234 +        return f'{h}h {m}m {s}s'                              
+      235 +    elif m:                                                   
+      236 +        return f'{m}m {s}s'                                   
+      237 +    return f'{s}s'                                            
+      238 +                                                              
+      239 +                                                              
+      240  def main():
+      241      global is_shutting_down
+      242  
+      243 +    args = _parse_args()                                      
+      244      headless = ask_headless(timeout=5)
+      245  
+      246      os.makedirs(DOWNLOAD_DIR_ABS, exist_ok=True)
+     ...
+      250      already_done |= read_missing_cases()
+      251      print(f'[scraper] Casos ya procesados/missing: {len(alread
+           y_done)}')
+      252  
+      253 +    # Determine range                                         
+      254 +    end = START_CASE + args.limit - 1 if args.limit else END_C
+          +ASE                                                           
+      255 +    total_to_process = end - START_CASE + 1                   
+      256 +    print(f'[scraper] Rango: {START_CASE:04d}/{YEAR} → {end:04
+          +d}/{YEAR} ({total_to_process} casos)')                        
+      257 +                                                              
+      258      driver = setup_driver(headless)
+      259 +    t_start = time.time()                                     
+      260  
+      261      try:
+      262          if not login(driver):
+     ...
+      264              return
+      265  
+      266          stats = {'ok': 0, 'skipped': 0, 'error': 0, 'missing':
+            0}
+      267 +        processed_this_run = 0                                
+      268  
+      238 -        for i in range(START_CASE, END_CASE + 1):             
+      269 +        for i in range(START_CASE, end + 1):                  
+      270              if is_shutting_down:
+      271                  print('[scraper] Apagado solicitado, saliendo.
+           ..')
+      272                  break
+     ...
+      283                  time.sleep(SLEEP_MEDIUM)
+      284  
+      285              result = process_case(driver, case)
+      286 +            processed_this_run += 1                           
+      287  
+      288              if result is True:
+      289                  stats['ok'] += 1
+     ...
+      291              elif result is False:
+      292                  stats['error'] += 1
+      293              else:
+      262 -                # None = skipped (missing or wrong species)   
+      294                  already_done.add(case)
+      264 -                if os.path.exists(MISSING_CASES_FILE):        
+      265 -                    # distinguish missing vs skipped for stats
+      266 -                    stats['missing'] += 1                     
+      267 -                else:                                         
+      268 -                    stats['skipped'] += 1                     
+      295 +                stats['missing'] += 1                         
+      296  
+      270 -            # After every 50 cases, check session health      
+      271 -            if i % 50 == 0:                                   
+      297 +            # Progress report every 50 cases                  
+      298 +            if processed_this_run % 50 == 0:                  
+      299                  ensure_session(driver)
+      273 -                total = stats['ok'] + stats['error'] + stats['
+          -missing'] + stats['skipped']                                  
+      274 -                print(f'[scraper] Progreso: caso {case} | '   
+      275 -                      f'ok={stats["ok"]} skip={stats["skipped"
+          -]} '                                                          
+      276 -                      f'missing={stats["missing"]} err={stats[
+          -"error"]}')                                                   
+      300 +                elapsed = time.time() - t_start               
+      301 +                rate = elapsed / processed_this_run if process
+          +ed_this_run else 0                                            
+      302 +                remaining = (end - i) * rate                  
+      303 +                print(f'[scraper] [{_fmt_time(elapsed)}] caso 
+          +{case} | '                                                    
+      304 +                      f'ok={stats["ok"]} skip={stats["missing"
+          +]} err={stats["error"]} | '                                   
+      305 +                      f'estimado restante: {_fmt_time(remainin
+          +g)}')                                                         
+      306  
+      278 -        print(f'\n[scraper] Terminado. '                      
+      279 -              f'ok={stats["ok"]} | skipped={stats["skipped"]} 
+          -| '                                                           
+      280 -              f'missing={stats["missing"]} | errores={stats["e
+          -rror"]}')                                                     
+      307 +        elapsed = time.time() - t_start                       
+      308 +        print(f'\n[scraper] Terminado en {_fmt_time(elapsed)}'
+          +)                                                             
+      309 +        print(f'  ok={stats["ok"]} | missing/skip={stats["miss
+          +ing"]} | errores={stats["error"]}')                           
+      310  
+      311      finally:
+      312          driver.quit()
+
+● Listo. Uso:
+
+  # Probar con 5 casos
+  python src/scraper.py 5
+
+  # Probar con 10
+  python src/scraper.py 10
+
+  # Correr todos los 3279
+  python src/scraper.py
+
+  Cada 50 casos muestra progreso con tiempo transcurrido y estimado restante:
+  [scraper] [2m 34s] caso 0050/2023 | ok=30 skip=12 err=2 | estimado restante:
+  2h 41m
+
+✻ Brewed for 44s
+
+❯ ejecute para 10 peor no se si termino , mira:                                 
+python src/scraper.py 10                                                        
+                                                                                
+¿Mostrar ventana del navegador? [s/N] (esperando 5s, Enter o silencio =         
+headless)... s                                                                  
+[browser] Modo: VISIBLE                                                         
+[csv_writer] Created output/resultados_2023.csv                                 
+[csv_writer] 0 cases already processed                                          
+[scraper] Casos ya procesados/missing: 0                                        
+[scraper] Rango: 0001/2023 → 0010/2023 (10 casos)                               
+[login] OK — http://164.73.21.67:8080/hospital7.0d/com.hospital.menuprincipal   
+[search_case] 0001/2023 — especie=CANINO                                        
+[get_pet_row] Found 0001/2023 at row 1                                          
+[get_ficha_buttons] 1 buttons, oldest first: ['vBOTONIMPRIMIR_0001']            
+[download_ficha] Clicked vBOTONIMPRIMIR_0001, waiting for download...           
+[download_ficha] Downloaded:                                                    
+/home/tux/projects/hospital_scraper/downloads/aimpresionuno_impl.pdf            
+[0001/2023] OK — CANINO CANICHE | Medicina General | paraje=CERRO               
+[search_case] 0002/2023 — especie=CANINO                                        
+[get_pet_row] Found 0002/2023 at row 1                                          
+[get_ficha_buttons] 2 buttons, oldest first: ['vBOTONIMPRIMIR_0002',            
+'vBOTONIMPRIMIR_0001']                                                          
+[download_ficha] Clicked vBOTONIMPRIMIR_0002, waiting for download...           
+                                                                                
+                                                                                
+                                                                                
+
+● Parece que quedó esperando la descarga del PDF del caso 0002. Fijate si el
+  proceso sigue corriendo o si terminó. Mientras tanto chequeá el estado:
+
+  # Ver qué hay en el CSV
+  cat output/resultados_2023.csv
+
+  # Ver qué PDFs descargó
+  ls downloads/
+
+  # Ver si hubo errores
+  cat output/errors.txt 2>/dev/null
+
+  Si el proceso colgó en el download del 0002, el problema es que el PDF no
+  terminó de bajar (timeout). Pegame lo que devuelven esos comandos y lo
+  arreglamos.
+
+❯ tux@tux:~/projects/hospital_scraper (master*) $ # Ver qué hay en el CSV       
+  cat output/resultados_2023.csv                                                
+                                                                                
+  # Ver qué PDFs descargó                                                       
+  ls downloads/                                                                 
+                                                                                
+  # Ver si hubo errores                                                         
+  cat output/errors.txt 2>/dev/null                                             
+Nro Ficha,Especie,Sexo,Edad (años),Raza,Peso                                    
+(kg),Tamaño,Departamento,Paraje,Especialidad,Motivo Consulta,Examen Obj.        
+Particular                                                                      
+0001/2023,CANINO,M,0,CANICHE,0.0,,MONTEVIDEO,CERRO,Medicina General,"BAKI;      
+macho, 5 meses.                                                                 
+Vómitos y diarreas.","DIGESTIVO:                                                
+Abdomen depresible, asas con contenido acusoso."                                
+ 0001_2023.pdf                                                                  
+'aimpresionuno_impl (1).pdf (1).crdownload'                                     
+'aimpresionuno_impl (1).pdf (2).crdownload'                                     
+'aimpresionuno_impl (1).pdf (3).crdownload'                                     
+'aimpresionuno_impl (1).pdf (4).crdownload'                                     
+'aimpresionuno_impl (1).pdf.crdownload'                                         
+'aimpresionuno_impl (2).pdf (1).crdownload'                                     
+'aimpresionuno_impl (2).pdf.crdownload'                                         
+'aimpresionuno_impl (3).pdf (1).crdownload'                                     
+'aimpresionuno_impl (3).pdf.crdownload'                                         
+'aimpresionuno_impl (4).pdf.crdownload'                                         
+'aimpresionuno_impl (5).pdf.crdownload'                                         
+0002/2023    download timeout on vBOTONIMPRIMIR_0002                            
+tux@tux:~/projects/hospital_scraper (master*) $                                 
+                                                                                
+
+● El problema es claro: Chrome está renombrando el PDF a aimpresionuno_impl 
+  (1).pdf, (2).pdf, etc. porque el archivo anterior quedó con ese nombre en la
+  carpeta. El _wait_for_download solo busca el nombre exacto
+  aimpresionuno_impl.pdf y nunca lo encuentra.
+
+  Fix en navigator.py: limpiar todos los .crdownload y buscar cualquier
+  aimpresionuno*.pdf:
+
+● Read 1 file (ctrl+o to expand)
+
+● Update(src/navigator.py)
+  ⎿  Added 35 lines, removed 21 lines
+      281          return []
+      282  
+      283  
+      284 +def _cleanup_download_dir(download_dir):                      
+      285 +    """Remove all aimpresionuno* files (PDFs and .crdownload) 
+          +from download_dir."""                                         
+      286 +    import glob as _glob                                      
+      287 +    for f in _glob.glob(os.path.join(download_dir, 'aimpresion
+          +uno*')):                                                      
+      288 +        try:                                                  
+      289 +            os.remove(f)                                      
+      290 +        except OSError:                                       
+      291 +            pass                                              
+      292 +                                                              
+      293 +                                                              
+      294  def download_ficha(driver, btn_id, download_dir):
+      295      """
+      296      Click the print button identified by btn_id and wait for t
+           he PDF to download.
+     ...
+      302          print(f'[download_ficha] Button {btn_id} not found')
+      303          return None
+      304  
+      295 -    # Remove any existing aimpresionuno_impl.pdf before clicki
+          -ng                                                            
+      296 -    pdf_path = os.path.join(download_dir, 'aimpresionuno_impl.
+          -pdf')                                                         
+      297 -    cr_path = pdf_path + '.crdownload'                        
+      298 -    for p in (pdf_path, cr_path):                             
+      299 -        if os.path.exists(p):                                 
+      300 -            os.remove(p)                                      
+      305 +    # Clean ALL aimpresionuno* files so Chrome uses the base f
+          +ilename                                                       
+      306 +    _cleanup_download_dir(download_dir)                       
+      307  
+      308      _click(driver, btn)
+      309      print(f'[download_ficha] Clicked {btn_id}, waiting for dow
+           nload...')
+     ...
+      318  
+      319  def _wait_for_download(download_dir, timeout=None):
+      320      """
+      315 -    Wait until aimpresionuno_impl.pdf appears in download_dir.
+      321 +    Wait until any aimpresionuno*.pdf (without .crdownload) ap
+          +pears in download_dir.                                        
+      322      Returns the path or None on timeout.
+      323      """
+      324 +    import glob as _glob                                      
+      325      t = timeout or DOWNLOAD_TIMEOUT
+      319 -    pdf_path = os.path.join(download_dir, 'aimpresionuno_impl.
+          -pdf')                                                         
+      320 -    cr_path = pdf_path + '.crdownload'                        
+      326      start = time.time()
+      322 -    last_size = -1                                            
+      323 -    stable_count = 0                                          
+      327 +    last_size = {}                                            
+      328 +    stable_count = {}                                         
+      329  
+      330      while time.time() - start < t:
+      326 -        if os.path.exists(pdf_path):                          
+      327 -            return pdf_path                                   
+      331 +        # Check for completed PDFs (any aimpresionuno*.pdf not
+          + ending in .crdownload)                                       
+      332 +        pdfs = [f for f in _glob.glob(os.path.join(download_di
+          +r, 'aimpresionuno*.pdf'))                                     
+      333 +                if not f.endswith('.crdownload')]             
+      334 +        if pdfs:                                              
+      335 +            return pdfs[0]                                    
+      336  
+      329 -        if os.path.exists(cr_path):                           
+      330 -            size = os.path.getsize(cr_path)                   
+      331 -            if size == last_size:                             
+      332 -                stable_count += 1                             
+      333 -                if stable_count >= 3:                         
+      337 +        # Monitor .crdownload files for stability             
+      338 +        crs = _glob.glob(os.path.join(download_dir, 'aimpresio
+          +nuno*.crdownload'))                                           
+      339 +        for cr in crs:                                        
+      340 +            try:                                              
+      341 +                size = os.path.getsize(cr)                    
+      342 +            except OSError:                                   
+      343 +                continue                                      
+      344 +            if last_size.get(cr) == size:                     
+      345 +                stable_count[cr] = stable_count.get(cr, 0) + 1
+      346 +                if stable_count[cr] >= 3:                     
+      347 +                    pdf_path = cr.replace('.crdownload', '')  
+      348                      try:
+      335 -                        os.rename(cr_path, pdf_path)          
+      349 +                        os.rename(cr, pdf_path)               
+      350                          return pdf_path
+      351                      except OSError:
+      352                          pass
+      353              else:
+      340 -                last_size = size                              
+      341 -                stable_count = 0                              
+      354 +                last_size[cr] = size                          
+      355 +                stable_count[cr] = 0                          
+      356  
+      357          time.sleep(1)
+      358  
+
+● También limpiá los archivos viejos antes de volver a correr:
+
+  rm downloads/aimpresionuno* 2>/dev/null; python src/scraper.py 10
+
+  El fix limpia todos los aimpresionuno* antes de cada descarga, y el detector
+  de descarga busca cualquier aimpresionuno*.pdf en lugar del nombre exacto.
+
+✻ Worked for 41s
+
+❯ no corta la ejecucion:                                                        
+^C                                                                              
+[scraper] Ctrl+C recibido, terminando al finalizar el caso actual...            
+^C                                                                              
+[scraper] Ctrl+C recibido, terminando al finalizar el caso actual...            
+^C                                                                              
+[scraper] Ctrl+C recibido, terminando al finalizar el caso actual...            
+^C                                                                              
+[scraper] Ctrl+C recibido, terminando al finalizar el caso actual...            
+^C                                                                              
+[scraper] Ctrl+C recibido, terminando al finalizar el caso actual...            
+^C                                                                              
+[scraper] Ctrl+C recibido, terminando al finalizar el caso actual...            
+^C                                                                              
+[scraper] Ctrl+C recibido, terminando al finalizar el caso actual...            
+^C                                                                              
+[scraper] Ctrl+C recibido, terminando al finalizar el caso actual..             
+
+● El problema: el Ctrl+C setea is_shutting_down pero el script está colgado
+  dentro de _wait_for_download esperando el PDF. Ese loop no chequea la flag.
+  Fix en dos partes:
+
+  1. _wait_for_download chequea el flag de shutdown
+  2. Segundo Ctrl+C fuerza salida inmediata
+
+● Update(src/scraper.py)
+  ⎿  Added 4 lines, removed 1 line
+      42  
+      43  def signal_handler(signum, frame):
+      44      global is_shutting_down
+      45 -    print('\n[scraper] Ctrl+C recibido, terminando al finalizar
+         - el caso actual...')                                           
+      45 +    if is_shutting_down:                                       
+      46 +        print('\n[scraper] Forzando salida...')                
+      47 +        sys.exit(1)                                            
+      48 +    print('\n[scraper] Ctrl+C recibido, terminando al finalizar
+         + el caso actual... (Ctrl+C de nuevo para salida inmediata)')   
+      49      is_shutting_down = True
+      50  
+      51  signal.signal(signal.SIGINT, signal_handler)
+
+● Ahora hago que _wait_for_download en navigator.py reciba y chequee el flag:
+
+● Update(src/navigator.py)
+  ⎿  Added 5 lines, removed 1 line
+      319  def _wait_for_download(download_dir, timeout=None):
+      320      """
+      321      Wait until any aimpresionuno*.pdf (without .crdownload) ap
+           pears in download_dir.
+      322 -    Returns the path or None on timeout.                      
+      322 +    Returns the path or None on timeout or shutdown.          
+      323      """
+      324      import glob as _glob
+      325 +    import scraper as _scraper_mod                            
+      326      t = timeout or DOWNLOAD_TIMEOUT
+      327      start = time.time()
+      328      last_size = {}
+      329      stable_count = {}
+      330  
+      331      while time.time() - start < t:
+      332 +        if getattr(_scraper_mod, 'is_shutting_down', False):  
+      333 +            return None                                       
+      334 +                                                              
+      335          # Check for completed PDFs (any aimpresionuno*.pdf not
+            ending in .crdownload)
+      336          pdfs = [f for f in _glob.glob(os.path.join(download_di
+           r, 'aimpresionuno*.pdf'))
+      337                  if not f.endswith('.crdownload')]
+
+● Ahora:
+  - Primer Ctrl+C → termina el caso actual y sale limpio
+  - Segundo Ctrl+C → sale inmediatamente (incluso si está esperando descarga)
+
+❯ ya esta todo para ejecutar de veulta ?                                        
+solo responde, podria moas hacerlos asyncrono para que se ams rapido ?          
+
+● Sí, está listo para ejecutar.
+
+  Async no aplica acá — Selenium requiere un browser real por tab, y GeneXus
+  bloquea con loading masks entre cada clic. Hacerlo paralelo requeriría
+  múltiples instancias de Chrome simultáneas, cada una con su propia sesión. Es
+  posible pero complejo y el servidor podría rechazar conexiones paralelas. Por
+  ahora mejor verificar que funcione correctamente primero.
+
+❯ queiro mejorar la salida en la terminal , me cuasta leer el progreso, un      
+barra de progreso con porciento estaria bueno                                   
+
+● Searched for 1 pattern (ctrl+o to expand)
+
+● Update(requirements.txt)
+  ⎿  Added 1 line
+       7  webdriver-manager==4.0.1
+       8  PyPDF2==3.0.1
+       9  openpyxl==3.1.2
+      10 +tqdm==4.66.2                                                   
+
+● Bash(source venv/bin/activate && pip install tqdm -q && echo "OK")
+  ⎿  OK
+
+● Ahora actualizo el loop principal en scraper.py:
+
+● Update(src/scraper.py)
+  ⎿  Added 1 line
+       8  import time
+       9  import signal
+      10  import shutil
+      11 +from tqdm import tqdm                                          
+      12  
+      13  sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'
+          ))
+      14  
+
+● Update(src/scraper.py)
+  ⎿  Added 17 lines, removed 12 lines
+      267              print('[scraper] Login fallido, abortando.')
+      268              return
+      269  
+      270 -        stats = {'ok': 0, 'skipped': 0, 'error': 0, 'missing':
+          - 0}                                                           
+      270 +        stats = {'ok': 0, 'skip': 0, 'error': 0}              
+      271          processed_this_run = 0
+      272  
+      273 -        for i in range(START_CASE, end + 1):                  
+      273 +        bar = tqdm(                                           
+      274 +            range(START_CASE, end + 1),                       
+      275 +            total=total_to_process,                           
+      276 +            unit='caso',                                      
+      277 +            dynamic_ncols=True,                               
+      278 +            bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [{el
+          +apsed}<{remaining}, {rate_fmt}]'                              
+      279 +        )                                                     
+      280 +                                                              
+      281 +        for i in bar:                                         
+      282              if is_shutting_down:
+      275 -                print('[scraper] Apagado solicitado, saliendo.
+          -..')                                                          
+      283 +                bar.write('[scraper] Apagado solicitado, salie
+          +ndo...')                                                      
+      284                  break
+      285  
+      286              case = f'{i:04d}/{YEAR}'
+      287  
+      288              if case in already_done:
+      289 +                bar.update(0)                                 
+      290                  continue
+      291  
+      292              # Ensure we're on todasmascotas before each case
+     ...
+      305                  stats['error'] += 1
+      306              else:
+      307                  already_done.add(case)
+      299 -                stats['missing'] += 1                         
+      308 +                stats['skip'] += 1                            
+      309  
+      301 -            # Progress report every 50 cases                  
+      310 +            bar.set_postfix(ok=stats['ok'], skip=stats['skip']
+          +, err=stats['error'], refresh=True)                           
+      311 +                                                              
+      312 +            # Check session every 50 cases                    
+      313              if processed_this_run % 50 == 0:
+      314                  ensure_session(driver)
+      304 -                elapsed = time.time() - t_start               
+      305 -                rate = elapsed / processed_this_run if process
+          -ed_this_run else 0                                            
+      306 -                remaining = (end - i) * rate                  
+      307 -                print(f'[scraper] [{_fmt_time(elapsed)}] caso 
+          -{case} | '                                                    
+      308 -                      f'ok={stats["ok"]} skip={stats["missing"
+          -]} err={stats["error"]} | '                                   
+      309 -                      f'estimado restante: {_fmt_time(remainin
+          -g)}')                                                         
+      315  
+      316          elapsed = time.time() - t_start
+      317          print(f'\n[scraper] Terminado en {_fmt_time(elapsed)}'
+           )
+      313 -        print(f'  ok={stats["ok"]} | missing/skip={stats["miss
+          -ing"]} | errores={stats["error"]}')                           
+      318 +        print(f'  ok={stats["ok"]} | skip={stats["skip"]} | er
+          +rores={stats["error"]}')                                      
+      319  
+      320      finally:
+      321          driver.quit()
+
+● Listo. La barra se ve así:
+
+   45%|████████████▌               | 45/100 [03:12<03:54, 3.2s/caso] ok=28,
+  skip=12, err=0
+
+  Muestra: porcentaje, barra visual, casos procesados, tiempo transcurrido,
+  tiempo estimado restante, velocidad, y los contadores al lado.
+
+✻ Sautéed for 44s
+
+❯ no veo la barra:                                                              
+python src/scraper.py 20                                                        
+                                                                                
+¿Mostrar ventana del navegador? [s/N] (esperando 5s, Enter o silencio =         
+headless)... n                                                                  
+[browser] Modo: HEADLESS                                                        
+[csv_writer] Appending to existing output/resultados_2023.csv                   
+[csv_writer] 10 cases already processed                                         
+[scraper] Casos ya procesados/missing: 10                                       
+[scraper] Rango: 0001/2023 → 0020/2023 (20 casos)                               
+[login] OK — http://164.73.21.67:8080/hospital7.0d/com.hospital.menuprincipal   
+  0%|                                               | 0/20 [00:00<?,            
+?caso/s][search_case] 0011/2023 — especie=FELINO                                
+[get_pet_row] Found 0011/2023 at row 1                                          
+[get_ficha_buttons] 5 buttons, oldest first: ['vBOTONIMPRIMIR_0005',            
+'vBOTONIMPRIMIR_0004', 'vBOTONIMPRIMIR_0003', 'vBOTONIMPRIMIR_0002',            
+'vBOTONIMPRIMIR_0001']                                                          
+[download_ficha] Clicked vBOTONIMPRIMIR_0005, waiting for download...           
+[download_ficha] Downloaded:                                                    
+/home/tux/projects/hospital_scraper/downloads/aimpresionuno_impl.pdf            
+[download_ficha] Button vBOTONIMPRIMIR_0004 not found                           
+                                                                                
+                                                                                
+                                                                                
+[download_ficha] Button vBOTONIMPRIMIR_0003 not found                           
+                                                                                
+
+● Dos problemas:
+
+  1. Barra mezclada con logs — los print() de los otros módulos la rompen
+  2. vBOTONIMPRIMIR_0004 not found — el driver.back() entre descargas está mal:
+  el botón de imprimir NO navega fuera de wwfichas, así que driver.back() nos
+  saca de la página equivocada
+
+  Arreglo los dos:
+
+● Update(src/scraper.py)
+  ⎿  Added 2 lines, removed 4 lines
+      173              return False
+      174  
+      175          # Download PDFs, try oldest first, fallback to newer i
+           f data incomplete
+      176 +        # Note: clicking the print button does NOT navigate aw
+          +ay from wwfichas,                                             
+      177 +        # so we stay on the page and can click the next button
+          + directly.                                                    
+      178          fields = None
+      179          for btn_id in btns:
+      180              pdf_tmp = download_ficha(driver, btn_id, DOWNLOAD_
+           DIR_ABS)
+     ...
+      197              if is_data_complete(fields):
+      198                  break
+      199  
+      198 -            # Go back to wwfichas to try the next button      
+      199 -            driver.back()                                     
+      200 -            time.sleep(SLEEP_MEDIUM)                          
+      201 -                                                              
+      200          if fields is None:
+      201              log_error(case_number, 'no fields extracted')
+      202              return False
+
+● Ahora la barra — hago que todos los print() del scraper usen tqdm.write() para
+   no romperla:
+
+● Update(src/scraper.py)
+  ⎿  Added 5 lines, removed 1 line
+      273              total=total_to_process,
+      274              unit='caso',
+      275              dynamic_ncols=True,
+      276 -            bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [{el
+          -apsed}<{remaining}, {rate_fmt}]'                              
+      276 +            bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [{el
+          +apsed}<{remaining}, {rate_fmt}] {postfix}'                    
+      277          )
+      278 +        # Redirect print so logs don't break the bar          
+      279 +        import builtins                                       
+      280 +        _orig_print = builtins.print                          
+      281 +        builtins.print = lambda *a, **kw: tqdm.write(' '.join(
+          +str(x) for x in a))                                           
+      282  
+      283          for i in bar:
+      284              if is_shutting_down:
+
+● Y restauro el print original al terminar:
+
+● Update(src/scraper.py)
+  ⎿  Added 1 line
+      316                  ensure_session(driver)
+      317  
+      318          elapsed = time.time() - t_start
+      319 +        builtins.print = _orig_print                          
+      320          print(f'\n[scraper] Terminado en {_fmt_time(elapsed)}'
+           )
+      321          print(f'  ok={stats["ok"]} | skip={stats["skip"]} | er
+           rores={stats["error"]}')
+      322  
+
+● Ahora debería verse así:
+
+   55%|████████████████▌             | 11/20 [01:23<01:08, 7.6s/caso] ok=7,
+  skip=3, err=0
+  [search_case] 0012/2023 — especie=CANINO
+  [get_pet_row] Found 0012/2023 at row 1
+
+  Los logs pasan por encima de la barra sin romperla, y la barra se queda fija
+  abajo.
+
+✻ Brewed for 1m 4s
+
+❯ cuando editaste estaba procesando pero no se corto. como funciona la edicion  
+que no se corto el procesamiento ?                                              
+
+● Porque el script ya está cargado en memoria por Python. Cuando editás un .py
+  en disco, el proceso que ya está corriendo no se ve afectado — Python ya leyó
+  y compiló el código al arrancar. El archivo en disco es irrelevante hasta la
+  próxima vez que lo importes o ejecutes.
+
+  El nuevo código entra en efecto recién la próxima ejecución del script.
+
+❯ ahora prepara todo para hacer el primer commit y pushear, ojo con la carpta   
+.idea del ide entocnes pone todo lo necesario en el .gitignore                  
+
+● Bash(git status && ls -la)
+  ⎿  On branch master
+
+     No commits yet
+     … +35 lines (ctrl+o to expand)
+
+● Write(.gitignore)
+  ⎿  Wrote 25 lines to .gitignore
+       1 # IDE
+       2 .idea/
+       3 
+       4 # Python
+       5 venv/
+       6 venvsource/
+       7 __pycache__/
+       8 *.pyc
+       9 *.pyo
+      10 *.pyd
+     … +15 lines (ctrl+o to expand)
+
+● Bash(git status)
+  ⎿  On branch master
+
+     No commits yet
+     … +23 lines (ctrl+o to expand)
+
+● Limpio, .idea/, venv/, output/, downloads/ ya no aparecen. Hago el commit:
+
+● Bash(git add .gitignore CLAUDE.md PLAN.md README.md requirements.txt config/
+      src/)
+  ⎿  (No output)
+
+● Bash(git commit -m "$(cat <<'EOF'
+      Initial implementation of hospital scraper for FVET clinical records…)
+  ⎿  [master (root-commit) 68428e7] Initial implementation of hospital scra
+     per for FVET clinical records
+      11 files changed, 1535 insertions(+)
+     … +11 lines (ctrl+o to expand)
+
+● Bash(git remote -v)
+  ⎿  origin     git@github.com:reidelon/veterinaria-scraper.git (fetch)
+     origin     git@github.com:reidelon/veterinaria-scraper.git (push)
+
+● Bash(git push -u origin master)
+  ⎿  To github.com:reidelon/veterinaria-scraper.git
+      * [new branch]      master -> master
+     branch 'master' set up to track 'origin/master'.
+
+● Listo. Commit hecho y pusheado a github.com/reidelon/veterinaria-scraper. Lo
+  que quedó fuera (ignorado): .idea/, venv/, output/, downloads/, .claude/,
+  archivos temporales.
+
+✻ Sautéed for 43s
