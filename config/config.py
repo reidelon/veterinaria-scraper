@@ -11,8 +11,8 @@ LOGIN_URL = f'{BASE_URL}/com.hospital.login'
 MASCOTAS_URL = f'{BASE_URL}/com.hospital.todasmascotas'
 
 # Credentials
-USERNAME = os.environ['USERNAME']
-PASSWORD = os.environ['PASSWORD']
+USERNAME = os.environ['HOSPITAL_USERNAME']
+PASSWORD = os.environ['HOSPITAL_PASSWORD']
 
 # Case range
 START_CASE = 1
@@ -24,7 +24,7 @@ DOWNLOAD_DIR = 'downloads'
 OUTPUT_DIR = 'output'
 OUTPUT_EXCEL = f'{OUTPUT_DIR}/resultados_{YEAR}.xlsx'
 MISSING_CASES_FILE = f'{OUTPUT_DIR}/missing_cases.txt'
-ERRORS_FILE = f'{OUTPUT_DIR}/errors.txt'
+ERRORS_FILE = f'{OUTPUT_DIR}/errores.csv'
 
 # Timing
 WAIT_TIMEOUT = 10       # seconds to wait for elements

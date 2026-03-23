@@ -171,8 +171,8 @@ def _extract_departamento(text):
       1. value before label: "24 CERRO Sec: Paraje: Departamento MONTEVIDEO"
       2. label before value: "Departamento MONTEVIDEO Sec: 11 Paraje: BUCEO"
     """
-    # Pattern 2 (label before value)
-    m = re.search(r'Departamento\s+([A-ZÁÉÍÓÚÜÑ]+)', text)
+    # Pattern 2 (label before value) — solo en la misma línea
+    m = re.search(r'Departamento[ \t]+([A-ZÁÉÍÓÚÜÑ]+)', text)
     if m:
         return m.group(1).strip()
 
@@ -207,12 +207,13 @@ def _extract_paraje(text):
         if val and not val.upper().startswith('DEPARTAMENTO'):
             return val
 
-    # Fallback: try to get Dirección
-    m = re.search(r'Dirección:\s*\n?(.+?)(?:\n|eMail)', text, re.DOTALL)
+    # Fallback: la dirección aparece antes de la fecha de ingreso y el número de cliente
+    # e.g. "BLVAR. ARTIGAS 34/301.14/11/16 0000049981"
+    m = re.search(r'([A-ZÁÉÍÓÚÜÑ][^\n]+?)\d{2}/\d{2}/\d{2,4}\s+\d{7,}', text)
     if m:
         val = m.group(1).strip()
-        if val:
-            return f'[DIR] {val}'
+        if len(val) >= 3:
+            return val
 
     return None
 

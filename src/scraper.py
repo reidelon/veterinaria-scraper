@@ -3,11 +3,13 @@ scraper.py — Main loop for hospital clinical records scraper.
 Processes cases 0001/2023 → 3279/2023, downloads PDFs and writes to CSV.
 """
 
+import csv
 import os
 import sys
 import time
 import signal
 import shutil
+from datetime import datetime
 from tqdm import tqdm
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
@@ -75,16 +77,55 @@ def setup_driver(headless):
     return webdriver.Chrome(options=opts)
 
 
+_ERRORS_COLUMNS = ['Fecha y hora', 'Nro Ficha', 'Motivo', 'Link para revisar manualmente']
+_LINK = f'http://164.73.21.67:8080/hospital7.0d/com.hospital.arranque'
+
+_REASON_MAP = {
+    'no results':                    'La ficha no fue encontrada en el sistema',
+    'grid not found':                'La ficha no fue encontrada en el sistema',
+    'get_pet_row failed':            'No se pudo identificar la mascota dentro de la ficha del propietario',
+    'no print buttons in wwfichas':  'La ficha existe pero no tiene consultas registradas para imprimir',
+    'no fields extracted':           'Se descargó el PDF pero no se pudo leer la información',
+}
+
+
+def _human_reason(technical_reason):
+    for key, human in _REASON_MAP.items():
+        if key in technical_reason:
+            return human
+    if 'download timeout' in technical_reason:
+        return 'No se pudo descargar el PDF de la ficha (tiempo de espera agotado)'
+    return f'Error inesperado al procesar la ficha: {technical_reason}'
+
+
+def _init_errors_csv():
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    if not os.path.exists(ERRORS_FILE):
+        with open(ERRORS_FILE, 'w', newline='', encoding='utf-8-sig') as f:
+            csv.DictWriter(f, fieldnames=_ERRORS_COLUMNS).writeheader()
+
+
 def log_missing(case_number):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     with open(MISSING_CASES_FILE, 'a', encoding='utf-8') as f:
         f.write(case_number + '\n')
+    _write_error_row(case_number, 'La ficha no fue encontrada en el sistema')
 
 
 def log_error(case_number, reason):
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    with open(ERRORS_FILE, 'a', encoding='utf-8') as f:
-        f.write(f'{case_number}\t{reason}\n')
+    _write_error_row(case_number, _human_reason(reason))
+
+
+def _write_error_row(case_number, human_reason):
+    _init_errors_csv()
+    row = {
+        'Fecha y hora':             datetime.now().strftime('%d/%m/%Y %H:%M'),
+        'Nro Ficha':                case_number,
+        'Motivo':                   human_reason,
+        'Link para revisar manualmente': _LINK,
+    }
+    with open(ERRORS_FILE, 'a', newline='', encoding='utf-8-sig') as f:
+        csv.DictWriter(f, fieldnames=_ERRORS_COLUMNS).writerow(row)
 
 
 def read_missing_cases():
@@ -176,13 +217,19 @@ def process_case(driver, case_number):
         # Note: clicking the print button does NOT navigate away from wwfichas,
         # so we stay on the page and can click the next button directly.
         fields = None
+        downloaded_pdfs = []
         for btn_id in btns:
             pdf_tmp = download_ficha(driver, btn_id, DOWNLOAD_DIR_ABS)
             if not pdf_tmp:
-                log_error(case_number, f'download timeout on {btn_id}')
+                # Reintento único antes de pasar al siguiente botón
+                print(f'[{case_number}] Reintentando {btn_id}...')
+                time.sleep(SLEEP_MEDIUM)
+                pdf_tmp = download_ficha(driver, btn_id, DOWNLOAD_DIR_ABS)
+            if not pdf_tmp:
                 continue
 
             pdf_path = rename_pdf(pdf_tmp, case_number)
+            downloaded_pdfs.append(pdf_path)
             current = extract_fields(pdf_path)
 
             if fields is None:
@@ -198,10 +245,15 @@ def process_case(driver, case_number):
                 break
 
         if fields is None:
-            log_error(case_number, 'no fields extracted')
+            log_error(case_number, 'No se pudo descargar ningún PDF de la ficha')
             return False
 
         write_row(fields, case_number)
+        for pdf in downloaded_pdfs:
+            try:
+                os.remove(pdf)
+            except OSError:
+                pass
         print(f'[{case_number}] OK — {especie} {fields.get("raza")} '
               f'| {fields.get("especialidad")} | paraje={fields.get("paraje")}')
         return True
