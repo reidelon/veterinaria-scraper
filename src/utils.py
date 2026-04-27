@@ -2,8 +2,8 @@
 utils.py — Shared utilities for hospital scraper.
 """
 
-import select
 import sys
+import threading
 
 
 def ask_headless(timeout=5):
@@ -13,7 +13,6 @@ def ask_headless(timeout=5):
 
     Returns True if headless, False if visible.
     """
-    # If not a real terminal (e.g. piped), default to headless
     if not sys.stdin.isatty():
         print('\n[browser] Sin terminal interactiva → headless automático')
         return True
@@ -21,10 +20,16 @@ def ask_headless(timeout=5):
     print(f'\n¿Mostrar ventana del navegador? [s/N] (esperando {timeout}s, Enter o silencio = headless)... ',
           end='', flush=True)
 
-    ready, _, _ = select.select([sys.stdin], [], [], timeout)
-    if ready:
-        answer = sys.stdin.readline().strip().lower()
-        visible = answer in ('s', 'si', 'sí', 'y', 'yes')
+    answer_holder = []
+    def read_input():
+        answer_holder.append(sys.stdin.readline().strip().lower())
+
+    t = threading.Thread(target=read_input, daemon=True)
+    t.start()
+    t.join(timeout)
+
+    if answer_holder:
+        visible = answer_holder[0] in ('s', 'si', 'sí', 'y', 'yes')
     else:
         print('(sin respuesta)')
         visible = False
