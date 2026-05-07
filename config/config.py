@@ -2,7 +2,7 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 # URLs
 BASE_URL = os.environ.get('BASE_URL', 'http://164.73.21.67:8080/hospital7.0d')
